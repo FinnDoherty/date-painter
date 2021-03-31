@@ -1,0 +1,26 @@
+{
+  "name": "date-painter",
+  "version": "1.0.0",
+  "description": "A social group date availability tool",
+  "private": true,
+  "license": "BSD-2-Clause",
+  "scripts": {
+    "start": "webpack serve --mode development --open --hot --port 3000",
+    "build-dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-react": "^7.13.13",
+    "babel-loader": "^8.2.2",
+    "html-webpack-plugin": "^5.3.1",
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
