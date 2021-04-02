@@ -1,13 +1,14 @@
 const path = require("path");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require("dotenv-webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const htmlPlugin = new HtmlWebpackPlugin({
   template: "./src/index.html",
-  filename: "./index.html"
-})
-  
+  filename: "./index.html",
+});
+
 module.exports = {
-  entry: "./src/app.js",
+  entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "bundle.js",
@@ -15,14 +16,19 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)/,
-        exclude: /node_modules/,
+        test: /\.js$/,
         use: ["babel-loader"],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.js$/,
+        enforce: "pre",
+        use: ["source-map-loader"],
       },
     ],
   },
   resolve: {
     extensions: [".js", ".jsx"],
   },
-  plugins: [htmlPlugin]
+  plugins: [htmlPlugin, new Dotenv()],
 };
