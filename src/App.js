@@ -1,23 +1,27 @@
+import { Container, Divider } from "@material-ui/core";
 import React, { Component } from "react";
-import Canvas from "./Components/Canvas";
-import DrySwatches from "./Components/DrySwatches";
-import FirebaseContext from "./Firebase/context";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import ExistingCanvas from "./Components/ExistingCanvas";
+import BlankCanvasWrapper from "./Components/BlankCanvasWrapper";
+import NotFoundPage from "./Components/NotFoundPage";
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <header>
-          <h1>Date Painter Web</h1>
-        </header>
-        <Canvas></Canvas>
+      <Router>
+        <Container>
+          <header>
+            <h1>Date Painter Web</h1>
+          </header>
+          <Switch>
+            <Route exact path="/" component={BlankCanvasWrapper} />
+            <Route exact path="/404" component={NotFoundPage} />
+            <Route exact path="/:code" component={ExistingCanvas} />
 
-        <FirebaseContext.Consumer>
-          {(firebase) => {
-            return <DrySwatches firebase={firebase} />;
-          }}
-        </FirebaseContext.Consumer>
-      </div>
+            <Route path="*"  component={NotFoundPage} />
+          </Switch>
+        </Container>
+      </Router>
     );
   }
 }

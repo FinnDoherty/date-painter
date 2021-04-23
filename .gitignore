@@ -70,3 +70,5 @@ public/*
 
 # environment variables and credentials
 .env
+
+jsconfig.json

@@ -7,6 +7,7 @@ const htmlPlugin = new HtmlWebpackPlugin({
   filename: "./index.html",
 });
 
+
 module.exports = {
   entry: "./src/index.js",
   output: {
@@ -26,6 +27,10 @@ module.exports = {
         use: ["source-map-loader"],
       },
     ],
+  },
+  devServer: {
+    port: 3000,
+    historyApiFallback: true,
   },
   resolve: {
     extensions: [".js", ".jsx"],

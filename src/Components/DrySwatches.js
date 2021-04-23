@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import RowList from "./RowList";
+import { Button, Box, Grid } from "@material-ui/core";
 
 const exampleArray = [
   {
@@ -26,7 +27,9 @@ export class DrySwatches extends Component {
   componentDidMount() {
     const db = this.props.firebase.firestore;
 
-    let swatchesRef = db.collection("swatches");
+    let swatchesRef = db
+      .collection("swatches")
+      .where("canvasRef", "==", this.props.match.params.code);
     let listItems = [];
 
     this.fireStoreUnsubscribe = swatchesRef.onSnapshot((querySnapshot) => {
@@ -43,12 +46,7 @@ export class DrySwatches extends Component {
   }
 
   render() {
-    return (
-      <div>
-        dry swatches
-        <RowList data={this.state.rows} />
-      </div>
-    );
+    return <RowList data={this.state.rows} />;
   }
 }
 

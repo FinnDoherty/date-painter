@@ -15,6 +15,7 @@ class Firebase {
     app.initializeApp(config);
 
     this.firestore = app.firestore();
+    this.serverTimestamp = app.firestore().app.firebase_.firestore.FieldValue.serverTimestamp;
   }
 }
 
