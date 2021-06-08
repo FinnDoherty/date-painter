@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import Canvas from "./Canvas";
 import DrySwatches from "./DrySwatches";
 import FirebaseContext from "../Firebase/context";
-import { Link } from "react-router-dom";
 
 export default class ExistingCanvas extends Component {
   constructor(props) {
@@ -25,7 +24,6 @@ export default class ExistingCanvas extends Component {
   render() {
     return (
       <div>
-        <Link to="/">(Return to create new poll)</Link>
         <br />
         <FirebaseContext.Consumer>
           {(firebase) => {

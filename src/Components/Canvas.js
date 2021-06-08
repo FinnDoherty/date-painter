@@ -18,12 +18,13 @@ export class Canvas extends Component {
     super(props);
 
     this.state = {
-      paintbrush: "x",
+      paintbrush: "empty",
       name: "",
       buttonValues: [],
       dateCount: 0,
       datesLabelsDay: [],
       datesLabelsDate: [],
+      datesLabelsMonth: [],
     };
 
     this.handlePaintbrush = this.handlePaintbrush.bind(this);
@@ -54,14 +55,31 @@ export class Canvas extends Component {
             "Saturday",
           ];
 
-          // let dateLabels =;
+          const labelsMonth = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ];
+
           this.setState({
             dateCount: canvas.dates.length,
             datesLabelsDay: canvas.dates.map(
               (d) => labelsDay[d.toDate().getDay()]
             ),
             datesLabelsDate: canvas.dates.map((d) => d.toDate().getDate()),
-            buttonValues: canvas.dates.map((d) => "x"),
+            datesLabelsMonth: canvas.dates.map(
+              (d) => labelsMonth[d.toDate().getMonth()]
+            ),
+            buttonValues: canvas.dates.map((d) => "empty"),
           });
         } else {
           console.log("No such document!");
@@ -95,6 +113,15 @@ export class Canvas extends Component {
     this.setState({
       buttonValues: buttonValuesCopy,
     });
+
+    if (this.state.paintbrush == "empty") {
+      var el = document.getElementById("pick-a-colour-label");
+      el.classList.add("reminder-flash");
+
+      setTimeout(function() {
+        el.classList.remove('reminder-flash');
+    }, 500);
+    }
   }
 
   handleSubmit(event) {
@@ -116,7 +143,55 @@ export class Canvas extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <Container>
+        <h2 className="heading title">Event Title Goes Here</h2>
+
+        <label className="heading" htmlFor="name">Enter your name</label>
+        <input type="text" id="name" name="name" value={this.state.name} onChange={this.handleNameChange}/>
+
+        <label id="pick-a-colour-label" className="heading" htmlFor="paints">Pick a colour</label>
+
+
+
+        <label className="heading" htmlFor="card">and paint your card</label>
+
+        <div className="scrollable-area">
+          <div className="swatch-card">
+            <div className="signature-area">
+              <p className="signature">{this.state.name}</p>
+            </div>
+
+            {[...Array(this.state.dateCount).keys()].map((i) => {
+              return (
+                <div key={i} className="swatch-area">
+                  <button
+                    key={i}
+                    name={"button-" + i}
+                    onClick={(e) => this.handleSwatchClick(e, i)}
+                    className={`swatch swatch-colour-${this.state.buttonValues[i]}`}
+                  >
+                    <span className={`button-droplet-${this.state.buttonValues[i]}`}></span>
+                  </button>
+
+                  <p className="day">{this.state.datesLabelsDay[i]}</p>
+                  <p className="date">{this.state.datesLabelsDate[i]} {this.state.datesLabelsMonth[i]}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <button type="submit" className="button">SUBMIT</button>
+
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <Divider />
+        <Container >
         <Grid
             container
             spacing={3}
@@ -124,16 +199,6 @@ export class Canvas extends Component {
             justify="center"
             alignItems="center"
           >
-          <h3>Name</h3><br/>
-
-          <TextField
-            variant="outlined"
-            label="Name"
-            value={this.state.name}
-            onChange={this.handleNameChange}
-          >
-            Name
-          </TextField>
           </Grid>
         </Container>
         <Container style={{ height: "100px", margin: "20px 0" }}>
@@ -150,16 +215,16 @@ export class Canvas extends Component {
             value={this.state.paintbrush}
             onChange={this.handlePaintbrush}
           >
-            <ToggleButton value="x" style={{ color: "#b13e53" }}>
+            <ToggleButton value="0pc" style={{ color: "#b13e53" }}>
               x
             </ToggleButton>
-            <ToggleButton value="3" style={{ color: "#ef7d57" }}>
+            <ToggleButton value="30pc" style={{ color: "#ef7d57" }}>
               3
             </ToggleButton>
-            <ToggleButton value="7" style={{ color: "#ffcd75" }}>
+            <ToggleButton value="70pc" style={{ color: "#ffcd75" }}>
               7
             </ToggleButton>
-            <ToggleButton value="9" style={{ color: "#a7f070" }}>
+            <ToggleButton value="90pc" style={{ color: "#a7f070" }}>
               9
             </ToggleButton>
           </ToggleButtonGroup>
@@ -167,66 +232,6 @@ export class Canvas extends Component {
         </Container>
         <Divider />
 
-        <Container style={{ height: "100px", margin: "20px 0" }}>
-          <Grid
-            container
-            spacing={3}
-            direction="row"
-            justify="center"
-            alignItems="center"
-          >
-            <Box width="20%">{""}</Box>
-
-            {[...Array(this.state.dateCount).keys()].map((i) => {
-              return (
-                <Grid key={i} item xs={1}>
-                  {this.state.datesLabelsDay[i]}
-                  <br />
-                  {this.state.datesLabelsDate[i]}
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Container>
-        <Divider />
-
-        <Container style={{ height: "100px", margin: "20px 0" }}>
-          <h3>Paint your availability</h3>
-          <Grid
-            container
-            spacing={3}
-            direction="row"
-            justify="center"
-            alignItems="center"
-          >
-            <Box width="20%">{""}</Box>
-
-            {[...Array(this.state.dateCount).keys()].map((i) => {
-              return (
-                <Grid key={i} item xs={1}>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    key={i}
-                    name={"button-" + i}
-                    onClick={(e) => this.handleSwatchClick(e, i)}
-                  >
-                    {this.state.buttonValues[i]}
-                  </Button>
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Container>
-        <Divider />
-
-        <div style={{ overflow: "hidden" }}>
-          <Button type="submit" style={{ float: "right" }} variant="contained">
-            Submit
-          </Button>
-        </div>
-        <Divider />
-        <Divider />
       </form>
     );
   }

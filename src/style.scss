@@ -1,24 +1,36 @@
 
 @import "reset";
 
+// import webfonts
+@import url('http://fonts.cdnfonts.com/css/reem-kufi');
+@import url('http://fonts.cdnfonts.com/css/inter');
+@import url('http://fonts.cdnfonts.com/css/pacifico');
+
+// colour scheme
 // https://lospec.com/palette-list/sweetie-16
 $black: #1a1c2c;
 $white: #f4f4f4;
-$teal: #359D85; //#257179;
 $green: #a7f070;
 $yellow: #ffcd75;
 $orange: #ef7d57;
 $red: #b13e53;
+$blue: #29366f;
+
+$teal: #359D85; // changed from #257179;
 
 $logo-color: $white;
+$grey: darken($white, 5);
 
-
-// svg {width: 100% !important; height: auto !important;}
+// fonts
+$main-font: "Reem Kufi", sans-serif;
+$stylised-font: Inter, sans-serif;
+$signature-font: Pacifico, sans-serif;
 
 body {
-	line-height: 1;
-	color: $black;
-	background: $white;
+  line-height: 1;
+  color: $black;
+  background: $grey;
+  font-family: $main-font;
 }
 
 .header {
@@ -26,16 +38,32 @@ body {
   height: 100px;
   width: 100%;
   clip-path: polygon(0% 0%,100% 0%,100% 100%,75% 85%,0% 100%);
-  // clip-path: polygon(0% 0%,100% 0%,100% 100%,75% calc(100% - 6vw),0% 100%);
+}
+
+.header::after {
+  box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.75);
+}
+
+h2 {
+  font-size: 26px;
+}
+
+label {
+  font-size: 20px;
+  display: block;
+}
+
+.heading {
+  font-family: $main-font;
+}
+
+.title {
+  margin: 10px 0 5px;text-align: center;
 }
 
 .logo {
   margin: 20px 15px;
   height: 53px;
-  // * {
-  //   fill: $logo-color;
-  //   stroke: $logo-color;
-  // }
 
   .logo-parts-1 {
     fill: $logo-color;
@@ -47,27 +75,201 @@ body {
   }
 }
 
+.container {
+  padding: 0 16px;
+}
 
+// forms
+*, *:before, *:after {
+  box-sizing: border-box;
+}
 
+input[type=text] {
+  padding: 10px;
+  margin: 10px 1px;
+  border: 1px solid $black;
+  box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.75);
+  border-radius:10px;
+  width:100%;
+  background-color: $white;
+}
 
-// .logo-parts {
-//   fill: $red;
-//   stroke: $red;
-// }
-// .header::after {
-//   content: "This is a fancy orange box.";
-//   background-color: #FFBA10;
-//   border-color: black;
-//   border-style: dotted;
-//   height: 200px;
-//   // background-color: $green;
-//   width: 100%;
+input[type=text]:focus {
+  border: 2px solid $blue;
+  margin: 9px 0;
+}
 
-//   display: block;
-//   // clip-path: polygon(
-//   //   0 0,
-//   //   200% -350%,
-//   //   80% 100%,
-//   //   0 30%
-//   // );
-// }
+button {
+  /* remove default behavior */
+  appearance:none;
+  -webkit-appearance:none;
+  all: revert;
+}
+
+.button {
+  padding: 10px;
+  border: 1px solid $black;
+  border-radius: 10px;
+  box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.5);
+
+  font-size: 20px;
+  overflow: visible;
+  margin: 0;
+
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.button:hover {
+  filter: brightness(85%);
+}
+
+.button:active {
+  box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.75);
+  transform: translateY(2px);
+}
+
+.button:focus-visible {
+  border: 2px solid $blue;
+  margin: 9px 0;
+}
+
+.button {
+  width: 100%;
+  background-color: $teal;
+  color: $white;
+}
+
+.scrollable-area {
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: auto;
+  padding: 20px 0;
+  margin: 0 -16px;
+}
+
+.swatch-card {
+  display:inline-block;
+  background-color: $white;
+  border: 1px $black;
+  box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.25);
+
+  height: 165px;
+  width: fit-content;
+  margin: 0 16px;
+  padding: 20px 16px;
+
+  //grid layout
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.signature-area {
+  width: 135px;
+  text-align: center;
+}
+
+.signature {
+  transform: rotate(-15deg);
+  font-size: 20px;
+  font-family: $signature-font;
+  margin: 20px 0;
+  overflow-wrap: break-word;
+}
+
+.swatch-area {
+  width: 130px;
+  padding: 0 25px;
+}
+
+.swatch {
+  cursor: pointer;
+  border: 3px solid $black;
+  margin: 0 auto 10px;
+  width: 80px;
+  height: 80px;
+
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+
+.swatch-colour-0pc { background-color: $red; }
+.swatch-colour-30pc { background-color: $orange; }
+.swatch-colour-70pc { background-color: $yellow; }
+.swatch-colour-90pc { background-color: $green; }
+
+.button-droplet-0pc,
+.button-droplet-30pc,
+.button-droplet-70pc,
+.button-droplet-90pc {
+  margin-left: 6px;
+  height: 50px;
+  width: 50px;
+  display: block;
+  border-radius: 50%;
+
+  transform: scale(0);
+  animation-duration: 2s;
+  animation-timing-function: ease;
+  animation-direction: forwards;
+}
+
+@mixin ripple() {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(4);
+  }
+ }
+
+// unique keyframe animations so they can be replayed.
+@keyframes ripple-0pc { @include ripple(); }
+@keyframes ripple-30pc { @include ripple(); }
+@keyframes ripple-70pc { @include ripple(); }
+@keyframes ripple-90pc { @include ripple(); }
+
+.button-droplet-0pc {
+  animation-name: ripple-0pc;
+  background-color: $red;
+}
+
+.button-droplet-30pc {
+  animation-name: ripple-30pc;
+  background-color: $orange;
+}
+
+.button-droplet-70pc {
+  animation-name: ripple-70pc;
+  background-color: $yellow;
+}
+
+.button-droplet-90pc {
+  animation-name: ripple-90pc;
+  background-color: $green;
+}
+
+.day {
+  margin: 0 0 3px;
+
+  font-family: $stylised-font;
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+.date {
+  font-family: $stylised-font;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.reminder-flash {
+  text-decoration: underline;
+  text-decoration-color: $orange;
+  text-decoration-thickness: 1;
+  color: $orange;
+}

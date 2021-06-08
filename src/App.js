@@ -30,6 +30,7 @@ class App extends Component {
             </svg>
           </Link>
         </header>
+        <div className="container">
 
         <Switch>
           <Route exact path="/" component={BlankCanvasWrapper} />
@@ -38,6 +39,8 @@ class App extends Component {
 
           <Route path="*" component={NotFoundPage} />
         </Switch>
+
+       </div>
       </Router>
     );
   }
