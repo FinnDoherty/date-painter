@@ -164,6 +164,7 @@ export class Canvas extends Component {
               return (
                 <div key={i} className="swatch-area">
                   <button
+                    type="button"
                     key={i}
                     name={"button-" + i}
                     onClick={(e) => this.handleSwatchClick(e, i)}
