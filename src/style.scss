@@ -20,6 +20,7 @@ $teal: #359D85; // changed from #257179;
 
 $logo-color: $white;
 $grey: darken($white, 5);
+$dark-grey: #757575;
 
 // fonts
 $main-font: "Reem Kufi", sans-serif;
@@ -51,6 +52,7 @@ h2 {
 label {
   font-size: 20px;
   display: block;
+  margin: 30px 0 0;
 }
 
 .heading {
@@ -142,6 +144,12 @@ button {
   width: 100%;
   background-color: $teal;
   color: $white;
+
+  @media (min-width: 800px) {
+    width: 200px;
+    float: right;
+    clear: both;
+  }
 }
 
 .scrollable-area {
@@ -267,9 +275,124 @@ button {
   font-weight: bold;
 }
 
-.reminder-flash {
-  text-decoration: underline;
-  text-decoration-color: $orange;
-  text-decoration-thickness: 1;
-  color: $orange;
+//----------------------------
+
+#paint-pots-frame {
+  width: 100%
+}
+
+
+
+#help-text {
+  fill: $dark-grey;
+  font-family: $main-font;
+  font-size: 18px;
+  text-align: right;
+  color: $dark-grey;
+  line-height: 1.5;
+
+  & p {
+    height: 100px;
+    display: none;
+    opacity: 0;
+
+    &.active {
+      display: table-cell;
+      vertical-align: bottom;
+      animation: fadeIn 0.5s linear forwards;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+#pathways path{
+  stroke: $dark-grey;
+  stroke-width: 3;
+  visibility: hidden;
+
+  &.active {
+    visibility: visible;
+
+    stroke-dasharray: 242;
+    stroke-dashoffset: 242;
+    animation: dash 750ms linear forwards;
+  }
+
+  // using 242 as path length.
+  // actual length of paths:
+  // document.querySelector('#pathway-0pc').getTotalLength();
+  // 208
+  // 242
+  // 213
+  // 153
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+
+#paint-pots circle {
+  stroke: $dark-grey;
+  stroke-width: 5;
+
+  &#circle-0pc { fill: $red; }
+  &#circle-30pc { fill: $orange; }
+  &#circle-70pc { fill: $yellow; }
+  &#circle-90pc { fill: $green; }
+
+  &:hover {
+    filter: brightness(85%);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:focus-visible {
+    border: 2px solid $blue;
+    margin: 9px 0;
+  }
+}
+
+#text-inter-bold text{
+  font-family: $stylised-font;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 0em;
+  white-space: pre;
+
+  fill: $black;
+  pointer-events: none;
+}
+
+#paintbrush #handle {
+  fill: $black;
+  stroke: $black;
+}
+
+#paintbrush #paintbrush-bristles {
+  fill: $dark-grey;
+  stroke: $black;
+
+  &.paintbrush-0pc { fill: $red; }
+  &.paintbrush-30pc { fill: $orange; }
+  &.paintbrush-70pc { fill: $yellow; }
+  &.paintbrush-90pc { fill: $green; }
+}
+
+
+#paint-pots.reminder-flash circle {
+  stroke: $blue;
 }

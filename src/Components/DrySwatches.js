@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import RowList from "./RowList";
-import { Button, Box, Grid } from "@material-ui/core";
 
 const exampleArray = [
   {

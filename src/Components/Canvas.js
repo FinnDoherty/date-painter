@@ -1,15 +1,6 @@
-import {
-  Box,
-  Button,
-  Container,
-  decomposeColor,
-  Divider,
-  Grid,
-  TextField,
-} from "@material-ui/core";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import React, { Component } from "react";
+
+import PaintPots from "./PaintPots";
 
 const mnemonicWords = require("mnemonic-words");
 
@@ -27,7 +18,7 @@ export class Canvas extends Component {
       datesLabelsMonth: [],
     };
 
-    this.handlePaintbrush = this.handlePaintbrush.bind(this);
+    this.changePaint = this.changePaint.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleSwatchClick = this.handleSwatchClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -92,10 +83,10 @@ export class Canvas extends Component {
       });
   }
 
-  handlePaintbrush(event, newPaintbrush) {
-    if (newPaintbrush !== null) {
+  changePaint(newPaint) {
+    if (newPaint !== null) {
       this.setState({
-        paintbrush: newPaintbrush,
+        paintbrush: newPaint,
       });
     }
   }
@@ -115,7 +106,7 @@ export class Canvas extends Component {
     });
 
     if (this.state.paintbrush == "empty") {
-      var el = document.getElementById("pick-a-colour-label");
+      var el = document.getElementById("paint-pots");
       el.classList.add("reminder-flash");
 
       setTimeout(function() {
@@ -150,7 +141,7 @@ export class Canvas extends Component {
 
         <label id="pick-a-colour-label" className="heading" htmlFor="paints">Pick a colour</label>
 
-
+        <PaintPots parentChangePaintCallback = {this.changePaint}/>
 
         <label className="heading" htmlFor="card">and paint your card</label>
 
@@ -182,57 +173,6 @@ export class Canvas extends Component {
         </div>
 
         <button type="submit" className="button">SUBMIT</button>
-
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <Divider />
-        <Container >
-        <Grid
-            container
-            spacing={3}
-            direction="row"
-            justify="center"
-            alignItems="center"
-          >
-          </Grid>
-        </Container>
-        <Container style={{ height: "100px", margin: "20px 0" }}>
-        <Grid
-            container
-            spacing={3}
-            direction="row"
-            justify="center"
-            alignItems="center"
-          >
-            <h3>Choose a paintbrush: </h3>
-          <ToggleButtonGroup
-            exclusive
-            value={this.state.paintbrush}
-            onChange={this.handlePaintbrush}
-          >
-            <ToggleButton value="0pc" style={{ color: "#b13e53" }}>
-              x
-            </ToggleButton>
-            <ToggleButton value="30pc" style={{ color: "#ef7d57" }}>
-              3
-            </ToggleButton>
-            <ToggleButton value="70pc" style={{ color: "#ffcd75" }}>
-              7
-            </ToggleButton>
-            <ToggleButton value="90pc" style={{ color: "#a7f070" }}>
-              9
-            </ToggleButton>
-          </ToggleButtonGroup>
-          </Grid>
-        </Container>
-        <Divider />
-
       </form>
     );
   }

@@ -1,6 +1,4 @@
-import { Divider } from "@material-ui/core";
 import React, { Component } from "react";
-import Canvas from "./Canvas";
 import { Link } from "react-router-dom";
 
 export default class NotFoundPage extends Component {

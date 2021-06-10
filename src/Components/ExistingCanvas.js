@@ -30,6 +30,15 @@ export default class ExistingCanvas extends Component {
             return <Canvas firebase={firebase} {...this.props}/>;
           }}
         </FirebaseContext.Consumer>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <Divider />
         <FirebaseContext.Consumer>
           {(firebase) => {
