@@ -45,6 +45,12 @@ body {
   box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.75);
 }
 
+.footer {
+  background-color: $teal;
+  height: 50px;
+  width: 100%;
+}
+
 h2 {
   font-size: 26px;
 }
@@ -59,8 +65,13 @@ label {
   font-family: $main-font;
 }
 
+.validation-message {
+  color: $red;
+  font-size: 18px;
+}
+
 .title {
-  margin: 10px 0 5px;text-align: center;
+  margin: 35px 0 5px;text-align: center;
 }
 
 .logo {
@@ -79,6 +90,7 @@ label {
 
 .container {
   padding: 0 16px;
+  margin: 0 0 100px 0;
 }
 
 // forms
@@ -153,11 +165,14 @@ button {
 }
 
 .scrollable-area {
-  display: flex;
   overflow-y: hidden;
   overflow-x: auto;
   padding: 20px 0;
   margin: 0 -16px;
+}
+
+.formTab .scrollable-area {
+  display: flex;
 }
 
 .swatch-card {
@@ -174,6 +189,13 @@ button {
   //grid layout
   display: grid;
   grid-auto-flow: column;
+}
+
+.resultsTab .swatch-card {
+  position:relative;
+  top: calc(var(--cardorder) * -55px);
+  left: calc(var(--cardorder) * 12px);
+  margin-right: 200px;
 }
 
 .signature-area {
@@ -195,7 +217,6 @@ button {
 }
 
 .swatch {
-  cursor: pointer;
   border: 3px solid $black;
   margin: 0 auto 10px;
   width: 80px;
@@ -203,6 +224,10 @@ button {
 
   transition: all 0.5s ease;
   overflow: hidden;
+}
+
+button.swatch {
+  cursor: pointer;
 }
 
 .swatch-colour-0pc { background-color: $red; }
@@ -395,4 +420,72 @@ button {
 
 #paint-pots.reminder-flash circle {
   stroke: $blue;
+}
+
+
+
+// -------------
+.formTab {
+  /* Hide the element content, while height = 0 */
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+
+  transform: translateX(-150%);
+  transition: height 0s 4s, transform 4s 0ms;
+}
+.formTab.showForm {
+  overflow: visible;
+  height: auto; opacity: 1;
+  transition: height 0s 0s, transform 600ms 0ms;
+  transform: translateX(0);
+}
+
+.resultsTab {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+
+  transform: translateX(150%);
+  transition: height 0s 4s, transform 4s 0ms;
+}
+.resultsTab.showResults {
+  overflow: visible;
+  height: auto; opacity: 1;
+  transition: height 0s 0s, transform 600ms 0ms;
+  transform: translateX(0);
+}
+
+.tab {
+  display: flex;
+  overflow: hidden;
+  margin: 20px -16px;
+  padding: 0 0 10px 0;
+}
+
+.tab-right {
+  justify-content: flex-end;
+}
+.tab-left {
+  justify-content: flex-start;
+}
+
+.tab-link {
+  margin: 0 -10px;
+  border-radius:5px;
+  padding: 10px 20px;
+  background-color: $teal;
+  color: $white;
+  text-decoration: none;
+  box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.5);
+}
+
+
+.tab-link:hover {
+  filter: brightness(85%);
+}
+
+.tab-link:active {
+  box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.75);
+  transform: translateY(2px);
 }

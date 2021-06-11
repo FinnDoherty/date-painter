@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import ResultsTab from "./ResultsTab";
 
 import PaintPots from "./PaintPots";
-
-const mnemonicWords = require("mnemonic-words");
 
 export class Canvas extends Component {
   constructor(props) {
@@ -16,6 +16,8 @@ export class Canvas extends Component {
       datesLabelsDay: [],
       datesLabelsDate: [],
       datesLabelsMonth: [],
+      submittedSwatchCards: [],
+      invalidForm: false,
     };
 
     this.changePaint = this.changePaint.bind(this);
@@ -27,6 +29,7 @@ export class Canvas extends Component {
   componentDidMount() {
     const db = this.props.firebase.firestore;
 
+    // formTab get the event details, like range of dates, to give answers to.
     let canvasesRef = db
       .collection("canvases")
       .where("code", "==", this.props.match.params.code);
@@ -81,6 +84,24 @@ export class Canvas extends Component {
       .catch((error) => {
         console.log("Error getting document:", error);
       });
+
+      // restultsTab, get the already submitted answers
+      let swatchesRef = db
+        .collection("swatches")
+        .where("canvasRef", "==", this.props.match.params.code);
+      let swatchCards = [];
+
+      this.fireStoreUnsubscribe = swatchesRef.onSnapshot((querySnapshot) => {
+        swatchCards = querySnapshot.docs;
+
+        this.setState({
+          submittedSwatchCards: swatchCards,
+        });
+      });
+  }
+
+  componentWillUnmount() {
+    this.fireStoreUnsubscribe();
   }
 
   changePaint(newPaint) {
@@ -118,62 +139,92 @@ export class Canvas extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const firebase = this.props.firebase;
-    const db = firebase.firestore;
-    let swatchesRef = db.collection("swatches");
+    let nameProvided = this.state.name != "";
+    let allAnswered = this.state.buttonValues.every((answer) => answer !== "empty");
+    let validForm = (nameProvided && allAnswered);
 
-    swatchesRef.add({
-      name: this.state.name,
-      answers: this.state.buttonValues,
-      canvasRef: this.props.match.params.code,
-      createdBy: "",
-      createdAt: firebase.serverTimestamp(),
-    });
+    this.setState({
+      invalidForm: !validForm,
+    })
+
+    if (validForm) {
+      const firebase = this.props.firebase;
+      const db = firebase.firestore;
+      let swatchesRef = db.collection("swatches");
+
+      swatchesRef.add({
+        name: this.state.name,
+        answers: this.state.buttonValues,
+        canvasRef: this.props.match.params.code,
+        createdBy: "",
+        createdAt: firebase.serverTimestamp(),
+      });
+      this.props.history.push(this.props.location.pathname + "?results");
+    }
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <div>
         <h2 className="heading title">Event Title Goes Here</h2>
 
-        <label className="heading" htmlFor="name">Enter your name</label>
-        <input type="text" id="name" name="name" value={this.state.name} onChange={this.handleNameChange}/>
+        <form className={`formTab ${this.props.isResultsTab ? '' : 'showForm'}`} onSubmit={this.handleSubmit}>
 
-        <label id="pick-a-colour-label" className="heading" htmlFor="paints">Pick a colour</label>
-
-        <PaintPots parentChangePaintCallback = {this.changePaint}/>
-
-        <label className="heading" htmlFor="card">and paint your card</label>
-
-        <div className="scrollable-area">
-          <div className="swatch-card">
-            <div className="signature-area">
-              <p className="signature">{this.state.name}</p>
-            </div>
-
-            {[...Array(this.state.dateCount).keys()].map((i) => {
-              return (
-                <div key={i} className="swatch-area">
-                  <button
-                    type="button"
-                    key={i}
-                    name={"button-" + i}
-                    onClick={(e) => this.handleSwatchClick(e, i)}
-                    className={`swatch swatch-colour-${this.state.buttonValues[i]}`}
-                  >
-                    <span className={`button-droplet-${this.state.buttonValues[i]}`}></span>
-                  </button>
-
-                  <p className="day">{this.state.datesLabelsDay[i]}</p>
-                  <p className="date">{this.state.datesLabelsDate[i]} {this.state.datesLabelsMonth[i]}</p>
-                </div>
-              );
-            })}
+          <div className="tab tab-right">
+              <Link className="tab-link" to={location => `${location.pathname}?results`}>go to results</Link>
           </div>
-        </div>
 
-        <button type="submit" className="button">SUBMIT</button>
-      </form>
+
+          <label className="heading" htmlFor="name">Enter your name</label>
+          <input type="text" id="name" name="name" value={this.state.name} onChange={this.handleNameChange}/>
+
+          <label id="pick-a-colour-label" className="heading" htmlFor="paints">Pick a colour</label>
+
+          <PaintPots parentChangePaintCallback = {this.changePaint}/>
+
+          <label className="heading" htmlFor="card">and paint your card</label>
+
+          <div className="scrollable-area">
+            <div className="swatch-card">
+              <div className="signature-area">
+                <p className="signature">{this.state.name}</p>
+              </div>
+
+              {[...Array(this.state.dateCount).keys()].map((i) => {
+                return (
+                  <div key={i} className="swatch-area">
+                    <button
+                      type="button"
+                      key={i}
+                      name={"button-" + i}
+                      onClick={(e) => this.handleSwatchClick(e, i)}
+                      className={`swatch swatch-colour-${this.state.buttonValues[i]}`}
+                    >
+                      <span className={`button-droplet-${this.state.buttonValues[i]}`}></span>
+                    </button>
+
+                    <p className="day">{this.state.datesLabelsDay[i]}</p>
+                    <p className="date">{this.state.datesLabelsDate[i]} {this.state.datesLabelsMonth[i]}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          { this.state.invalidForm && <label className="heading validation-message">Please provide a name and fill the full card</label> }
+
+          <button type="submit" className="button">SUBMIT</button>
+        </form>
+
+        <ResultsTab
+            submittedSwatchCards={this.state.submittedSwatchCards}
+            isResultsTab={this.props.isResultsTab}
+            datesLabelsDay={this.state.datesLabelsDay}
+            datesLabelsDate={this.state.datesLabelsDate}
+            datesLabelsMonth={this.state.datesLabelsMonth}
+        />
+
+      </div>
     );
   }
 }

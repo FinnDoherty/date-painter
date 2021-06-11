@@ -1,7 +1,5 @@
-import { Divider } from "@material-ui/core";
 import React, { Component } from "react";
 import Canvas from "./Canvas";
-import DrySwatches from "./DrySwatches";
 import FirebaseContext from "../Firebase/context";
 
 export default class ExistingCanvas extends Component {
@@ -10,42 +8,43 @@ export default class ExistingCanvas extends Component {
 
     this.state = {
       code: this.props.match.params.code,
+      isResultsTab: false,
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      isResultsTab: this.props.location.search === "?results",
+    });
+  }
+
   componentDidUpdate(prevProps) {
-    if (prevProps.match.params.code !== this.props.match.params.code) {
+    if (
+      prevProps.match.params.code !== this.props.match.params.code ||
+      prevProps.location.search !== this.props.location.search
+    ) {
+
+      // set the page title
+      var codeAbbreviated = this.props.match.params.code.match(/^.|(?<=-)./g).join('');
+      var resultsTab = this.props.location.search === "?results";
+
+      document.title = `Date Painter - ${codeAbbreviated}${resultsTab ? ' results' : ''}`;
+
+      // add code and resultsTab boolean to state
       this.setState({
         code: this.props.match.params.code,
+        isResultsTab: this.props.location.search === "?results",
       });
     }
   }
 
   render() {
     return (
-      <div>
-        <br />
         <FirebaseContext.Consumer>
           {(firebase) => {
-            return <Canvas firebase={firebase} {...this.props}/>;
+            return <Canvas firebase={firebase} {...this.props} code={this.state.code} isResultsTab={this.state.isResultsTab}/>;
           }}
         </FirebaseContext.Consumer>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <Divider />
-        <FirebaseContext.Consumer>
-          {(firebase) => {
-            return <DrySwatches firebase={firebase} {...this.props} />;
-          }}
-        </FirebaseContext.Consumer>
-      </div>
     );
   }
 }

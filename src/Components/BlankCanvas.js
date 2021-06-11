@@ -22,6 +22,8 @@ export default class BlankCanvas extends Component {
 
   componentDidMount() {
     this.generateCode();
+
+    document.title = 'Date Painter';
   }
 
   generateCode() {
