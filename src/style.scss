@@ -338,35 +338,23 @@ button.swatch {
   }
 }
 
-
 #pathways path{
   stroke: $dark-grey;
   stroke-width: 3;
   visibility: hidden;
+  opacity: 0%;
 
   &.active {
     visibility: visible;
-
-    stroke-dasharray: 242;
-    stroke-dashoffset: 242;
-    animation: dash 750ms linear forwards;
-  }
-
-  // using 242 as path length.
-  // actual length of paths:
-  // document.querySelector('#pathway-0pc').getTotalLength();
-  // 208
-  // 242
-  // 213
-  // 153
-}
-
-@keyframes dash {
-  to {
-    stroke-dashoffset: 0;
+    animation: pathFade 750ms linear forwards;
   }
 }
 
+@keyframes pathFade {
+  100% {
+    opacity: 100%;
+  }
+}
 
 #paint-pots circle {
   stroke: $dark-grey;

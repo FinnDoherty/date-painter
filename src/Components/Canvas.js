@@ -17,7 +17,8 @@ export class Canvas extends Component {
       datesLabelsDate: [],
       datesLabelsMonth: [],
       submittedSwatchCards: [],
-      invalidForm: false,
+      invalidFormName: false,
+      invalidFormSwatches: false,
     };
 
     this.changePaint = this.changePaint.bind(this);
@@ -144,7 +145,8 @@ export class Canvas extends Component {
     let validForm = (nameProvided && allAnswered);
 
     this.setState({
-      invalidForm: !validForm,
+      invalidFormName: !nameProvided,
+      invalidFormSwatches: !allAnswered,
     })
 
     if (validForm) {
@@ -211,7 +213,8 @@ export class Canvas extends Component {
             </div>
           </div>
 
-          { this.state.invalidForm && <label className="heading validation-message">Please provide a name and fill the full card</label> }
+          { this.state.invalidFormName && <label className="heading validation-message">Please provide your name</label> }
+          { this.state.invalidFormSwatches && <label className="heading validation-message">Please fill out the full card</label> }
 
           <button type="submit" className="button">SUBMIT</button>
         </form>
@@ -223,7 +226,6 @@ export class Canvas extends Component {
             datesLabelsDate={this.state.datesLabelsDate}
             datesLabelsMonth={this.state.datesLabelsMonth}
         />
-
       </div>
     );
   }
