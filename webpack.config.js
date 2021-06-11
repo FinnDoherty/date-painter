@@ -40,15 +40,15 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.svg$/,
-        use: ['@svgr/webpack'],
-      },
     ],
   },
   devServer: {
     port: 3000,
+    compress: true,
+    host: 'localhost',
+    contentBase: path.join(__dirname, './dist'),
     historyApiFallback: true,
+    disableHostCheck: true
   },
   resolve: {
     extensions: [".js", ".jsx"],
