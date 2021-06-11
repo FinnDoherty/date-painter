@@ -4,8 +4,6 @@ import ExistingCanvas from "./Components/ExistingCanvas";
 import BlankCanvasWrapper from "./Components/BlankCanvasWrapper";
 import NotFoundPage from "./Components/NotFoundPage";
 
-import Logo from './logo.svg'
-
 class App extends Component {
   render() {
     return (
