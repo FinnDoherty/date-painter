@@ -10,6 +10,7 @@ export class Canvas extends Component {
 
     this.state = {
       paintbrush: "empty",
+      occasionName: "",
       name: "",
       buttonValues: [],
       dateCount: 0,
@@ -66,6 +67,7 @@ export class Canvas extends Component {
           ];
 
           this.setState({
+            occasionName: canvas.occasionName,
             dateCount: canvas.dates.length,
             datesLabelsDay: canvas.dates.map(
               (d) => labelsDay[d.toDate().getDay()]
@@ -168,7 +170,7 @@ export class Canvas extends Component {
   render() {
     return (
       <div>
-        <h2 className="heading title">Event Title Goes Here</h2>
+        <h2 className="heading title">{this.state.occasionName}</h2>
 
         <form className={`formTab ${this.props.isResultsTab ? '' : 'showForm'}`} onSubmit={this.handleSubmit}>
 

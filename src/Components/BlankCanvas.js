@@ -11,6 +11,7 @@ export default class BlankCanvas extends Component {
       dates: [],
       expectedNumberOfSwatches: 6,
       code: "",
+      occasionName: "Weekly Games",
     };
     this.setDates = this.setDates.bind(this);
     this.generateCode = this.generateCode.bind(this);
@@ -18,6 +19,7 @@ export default class BlankCanvas extends Component {
       this
     );
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.changeOccasionName = this.changeOccasionName.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +46,13 @@ export default class BlankCanvas extends Component {
     this.state.dates = value.map((date) => date.toDate());
   }
 
+  changeOccasionName(event) {
+    this.setState({
+      occasionName: event.target.value,
+    });
+
+  }
+
   setexpectedNumberOfSwatches(event) {
     this.setState({
       expectedNumberOfSwatches: event.target.value,
@@ -61,6 +70,7 @@ export default class BlankCanvas extends Component {
       dates: this.state.dates,
       expectedNumberOfSwatches: this.state.expectedNumberOfSwatches,
       code: this.state.code,
+      occasionName: this.state.occasionName,
 
       createdBy: "",
       createdAt: firebase.serverTimestamp(),
@@ -84,7 +94,14 @@ export default class BlankCanvas extends Component {
           >
             Generate
           </Button>
-          <br />
+
+          <h3>Name of the Event</h3>
+          <TextField
+            type="text"
+            value={this.state.occasionName}
+            onChange={this.changeOccasionName}
+          />
+          <br/>
 
           <h3>How many people are invited?</h3>
           <TextField
