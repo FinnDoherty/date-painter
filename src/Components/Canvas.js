@@ -170,7 +170,7 @@ export class Canvas extends Component {
   render() {
     return (
       <div>
-        <h2 className="heading title">{this.state.occasionName}</h2>
+        <h2 className="title">{this.state.occasionName}</h2>
 
         <form className={`formTab ${this.props.isResultsTab ? '' : 'showForm'}`} onSubmit={this.handleSubmit}>
 

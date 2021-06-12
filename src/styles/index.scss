@@ -1,0 +1,33 @@
+
+@import "reset";
+
+// import webfonts
+@import url('http://fonts.cdnfonts.com/css/reem-kufi');
+@import url('http://fonts.cdnfonts.com/css/inter');
+@import url('http://fonts.cdnfonts.com/css/pacifico');
+
+// colour scheme
+// https://lospec.com/palette-list/sweetie-16
+$black: #1a1c2c;
+$white: #f4f4f4;
+$green: #a7f070;
+$yellow: #ffcd75;
+$orange: #ef7d57;
+$red: #b13e53;
+$blue: #29366f;
+
+$teal: #359D85; // changed from #257179;
+
+$logo-color: $white;
+$grey: darken($white, 5);
+$dark-grey: #757575;
+
+// fonts
+$main-font: "Reem Kufi", sans-serif;
+$stylised-font: Inter, sans-serif;
+$signature-font: Pacifico, sans-serif;
+
+@import "pageStructure";
+@import "forms";
+@import "paintPots";
+@import "swatchCards";

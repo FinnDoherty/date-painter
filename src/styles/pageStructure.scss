@@ -1,0 +1,119 @@
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  line-height: 1;
+  color: $black;
+  background: $grey;
+  font-family: $main-font;
+}
+
+.container {
+  padding: 0 16px;
+  margin: 0 0 100px 0;
+}
+
+
+.header {
+  background-color: $teal;
+  height: 100px;
+  width: 100%;
+  clip-path: polygon(0% 0%,100% 0%,100% 100%,75% 85%,0% 100%);
+}
+
+.header::after {
+  box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.75);
+}
+
+.footer {
+  background-color: $teal;
+  height: 50px;
+  width: 100%;
+}
+
+h2.title {
+  font-size: 26px;
+  margin: 35px 0 5px;
+  text-align: center;
+}
+
+
+.logo {
+  margin: 20px 15px;
+  height: 53px;
+
+  .logo-parts-1 {
+    fill: $logo-color;
+    stroke: $logo-color;
+  }
+
+  .logo-parts-2 {
+    fill: $logo-color;
+  }
+}
+
+
+.formTab {
+  /* Hide the element content, while height = 0 */
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+
+  transform: translateX(-150%);
+  transition: height 0s 4s, transform 4s 0ms;
+}
+.formTab.showForm {
+  overflow: visible;
+  height: auto; opacity: 1;
+  transition: height 0s 0s, transform 600ms 0ms;
+  transform: translateX(0);
+}
+
+.resultsTab {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+
+  transform: translateX(150%);
+  transition: height 0s 4s, transform 4s 0ms;
+}
+.resultsTab.showResults {
+  overflow: visible;
+  height: auto; opacity: 1;
+  transition: height 0s 0s, transform 600ms 0ms;
+  transform: translateX(0);
+}
+
+.tab {
+  display: flex;
+  overflow: hidden;
+  margin: 20px -16px;
+  padding: 0 0 10px 0;
+}
+.tab-right {
+  justify-content: flex-end;
+}
+.tab-left {
+  justify-content: flex-start;
+}
+
+.tab-link {
+  margin: 0 -10px;
+  border-radius:5px;
+  padding: 10px 20px;
+  background-color: $teal;
+  color: $white;
+  text-decoration: none;
+  box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.5);
+}
+
+.tab-link:hover {
+  filter: brightness(85%);
+}
+
+.tab-link:active {
+  box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.75);
+  transform: translateY(2px);
+}
