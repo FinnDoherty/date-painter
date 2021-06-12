@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 export class SubmittedSwatchCards extends Component {
   render() {
     return (
-      <div className={`resultsTab ${this.props.isResultsTab ? 'showResults' : ''}`} >
-
+      <div className={`resultsTab ${this.props.isResultsTab ? "showResults" : ""}`} >
         <div className="tab tab-left">
           <Link className="tab-link" to={location => `${location.pathname}`}>add a card</Link>
         </div>
@@ -37,6 +36,9 @@ export class SubmittedSwatchCards extends Component {
               })}
             </div>
           )})}
+          {this.props.submittedSwatchCards.map((a, i) => {
+            return <div key={i} className="extraSpacingDiv"></div>;
+          })}
         </div>
       </div>
     );

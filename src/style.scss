@@ -167,12 +167,17 @@ button {
 .scrollable-area {
   overflow-y: hidden;
   overflow-x: auto;
-  padding: 20px 0;
   margin: 0 -16px;
 }
 
 .formTab .scrollable-area {
+  padding: 20px 0;
   display: flex;
+}
+
+.resultsTab .scrollable-area {
+  position: relative;
+  padding: 0 0 75px;
 }
 
 .swatch-card {
@@ -192,10 +197,16 @@ button {
 }
 
 .resultsTab .swatch-card {
-  position:relative;
-  top: calc(var(--cardorder) * -55px);
+  position: absolute;
+  top: calc(var(--cardorder) * 110px);
   left: calc(var(--cardorder) * 12px);
-  margin-right: 200px;
+}
+
+// the cards are positioned with absolute so to overlap. so need to create height somehow for the containing area.
+.extraSpacingDiv {
+  display: block;
+  visibility: hidden;
+  height: 110px;
 }
 
 .signature-area {
