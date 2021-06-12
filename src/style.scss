@@ -183,7 +183,6 @@ button {
 .swatch-card {
   display:inline-block;
   background-color: $white;
-  border: 1px $black;
   box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.25);
 
   height: 165px;
@@ -233,7 +232,7 @@ button {
   width: 80px;
   height: 80px;
 
-  transition: all 0.5s ease;
+  transition: background-color 0.5s ease;
   overflow: hidden;
 }
 
