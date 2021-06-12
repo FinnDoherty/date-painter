@@ -149,7 +149,7 @@ export class Canvas extends Component {
     this.setState({
       invalidFormName: !nameProvided,
       invalidFormSwatches: !allAnswered,
-    })
+    });
 
     if (validForm) {
       const firebase = this.props.firebase;

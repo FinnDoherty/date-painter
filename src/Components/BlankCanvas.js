@@ -1,4 +1,3 @@
-import { Button, Container, TextField } from "@material-ui/core";
 import mnemonicWords from "mnemonic-words";
 import React, { Component } from "react";
 import { Calendar } from "react-multi-date-picker";
@@ -9,15 +8,12 @@ export default class BlankCanvas extends Component {
 
     this.state = {
       dates: [],
-      expectedNumberOfSwatches: 6,
       code: "",
       occasionName: "Weekly Games",
+      invalidForm: false,
     };
     this.setDates = this.setDates.bind(this);
     this.generateCode = this.generateCode.bind(this);
-    this.setexpectedNumberOfSwatches = this.setexpectedNumberOfSwatches.bind(
-      this
-    );
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeOccasionName = this.changeOccasionName.bind(this);
   }
@@ -43,91 +39,86 @@ export default class BlankCanvas extends Component {
   }
 
   setDates(value) {
-    this.state.dates = value.map((date) => date.toDate());
+    this.setState({
+      dates: value.map((date) => date.toDate()),
+    });
   }
 
   changeOccasionName(event) {
     this.setState({
       occasionName: event.target.value,
     });
-
-  }
-
-  setexpectedNumberOfSwatches(event) {
-    this.setState({
-      expectedNumberOfSwatches: event.target.value,
-    });
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
-    const firebase = this.props.firebase;
-    const db = firebase.firestore;
-    let canvasesRef = db.collection("canvases");
+    let validForm =  this.state.dates.length > 1;
 
-    canvasesRef.add({
-      dates: this.state.dates,
-      expectedNumberOfSwatches: this.state.expectedNumberOfSwatches,
-      code: this.state.code,
-      occasionName: this.state.occasionName,
-
-      createdBy: "",
-      createdAt: firebase.serverTimestamp(),
+    this.setState({
+      invalidForm: !validForm,
     });
 
-    this.props.history.push("/" + this.state.code);
+    if (validForm) {
+      const firebase = this.props.firebase;
+      const db = firebase.firestore;
+      let canvasesRef = db.collection("canvases");
+
+      canvasesRef.add({
+        dates: this.state.dates,
+        code: this.state.code,
+        occasionName: this.state.occasionName,
+
+        createdBy: "",
+        createdAt: firebase.serverTimestamp(),
+      });
+
+      this.props.history.push("/" + this.state.code);
+    }
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <Container>
+      <div>
+        <h2 className="title">Create a date poll</h2>
 
+        <form onSubmit={this.handleSubmit}>
 
-          <h3>Generate a unique code for this poll</h3>
-          <TextField value={this.state.code} />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.generateCode}
-          >
-            Generate
-          </Button>
-
-          <h3>Name of the Event</h3>
-          <TextField
-            type="text"
-            value={this.state.occasionName}
-            onChange={this.changeOccasionName}
+          <label className="heading" htmlFor="code">Generate a unique code for the event link</label>
+          <input
+              className="read-only-field"
+              type="text" id="code" name="code"
+              value={this.state.code}
+              readOnly
           />
-          <br/>
+          <button
+              type="button"
+              className="button"
+              onClick={this.generateCode}>
+                GENERATE
+          </button>
 
-          <h3>How many people are invited?</h3>
-          <TextField
-            type="number"
-            value={this.state.expectedNumberOfSwatches}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={this.setexpectedNumberOfSwatches}
-          />
-          <br />
-          <h3>Choose possible dates</h3>
+          <label className="heading" htmlFor="occasionName">Give the event a title</label>
+          <input
+              type="text" id="occasionName" name="occasionName"
+              value={this.state.occasionName}
+              onChange={this.changeOccasionName}
+              onKeyDown={(event) => {
+                if (event.keyCode == 13) {
+                  event.preventDefault();
+                  event.target.blur();
+                  return false;
+                }
+              }}/>
+
+          <label className="heading" htmlFor="calendar">Choose possible dates</label>
           <Calendar value={this.state.dates} onChange={this.setDates} />
-          <br />
-          <div style={{ overflow: "hidden" }}>
-            <Button
-              type="submit"
-              style={{ float: "right" }}
-              variant="contained"
-              color="secondary"
-            >
-              Submit
-            </Button>
-          </div>
-        </Container>
-      </form>
+
+          { this.state.invalidForm && <label className="heading validation-message">Please select at least 2 dates</label> }
+
+          <button type="submit" className="button">SUBMIT</button>
+        </form>
+      </div>
     );
   }
 }
