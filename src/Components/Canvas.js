@@ -180,7 +180,17 @@ export class Canvas extends Component {
 
 
           <label className="heading" htmlFor="name">Enter your name</label>
-          <input type="text" id="name" name="name" value={this.state.name} onChange={this.handleNameChange}/>
+          <input
+              type="text" id="name" name="name"
+              value={this.state.name}
+              onChange={this.handleNameChange}
+              onKeyDown={(event) => {
+                if (event.keyCode == 13) {
+                  event.preventDefault();
+                  event.target.blur();
+                  return false;
+                }
+              }}/>
 
           <label id="pick-a-colour-label" className="heading" htmlFor="paints">Pick a colour</label>
 
