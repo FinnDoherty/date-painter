@@ -22,6 +22,10 @@ $logo-color: $white;
 $grey: darken($white, 5);
 $dark-grey: #757575;
 
+:root {
+  --swatchCardScale: 1;
+}
+
 // fonts
 $main-font: "Reem Kufi", sans-serif;
 $stylised-font: Inter, sans-serif;
@@ -164,31 +168,34 @@ button {
   }
 }
 
+// The Swatch Cards and the scrollable area around them
+
 .scrollable-area {
   overflow-y: hidden;
   overflow-x: auto;
   margin: 0 -16px;
 }
 
+// the resultsTab cards are positioned with absolute so to overlap. so need to create height somehow for the containing area.
+.extraSpacingDiv {
+  display: block;
+  visibility: hidden;
+}
+
 .formTab .scrollable-area {
-  padding: 20px 0;
   display: flex;
 }
 
 .resultsTab .scrollable-area {
   position: relative;
-  padding: 0 0 75px;
 }
 
 .swatch-card {
-  display:inline-block;
+  display: inline-block;
   background-color: $white;
   box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.25);
 
-  height: 165px;
   width: fit-content;
-  margin: 0 16px;
-  padding: 20px 16px;
 
   //grid layout
   display: grid;
@@ -197,45 +204,35 @@ button {
 
 .resultsTab .swatch-card {
   position: absolute;
-  top: calc(var(--cardorder) * 110px);
-  left: calc(var(--cardorder) * 12px);
 }
 
-// the cards are positioned with absolute so to overlap. so need to create height somehow for the containing area.
-.extraSpacingDiv {
-  display: block;
-  visibility: hidden;
-  height: 110px;
-}
 
 .signature-area {
-  width: 135px;
   text-align: center;
 }
 
 .signature {
   transform: rotate(-15deg);
-  font-size: 20px;
   font-family: $signature-font;
-  margin: 20px 0;
   overflow-wrap: break-word;
 }
 
 .swatch-area {
-  width: 130px;
-  padding: 0 25px;
+  // just sizing
 }
 
 .swatch {
-  border: 3px solid $black;
-  margin: 0 auto 10px;
-  width: 80px;
-  height: 80px;
-
   transition: background-color 0.5s ease;
   overflow: hidden;
 }
 
+.day,.date {
+  font-family: $stylised-font;
+  font-weight: bolder;
+}
+
+
+// swatch buttons
 button.swatch {
   cursor: pointer;
 }
@@ -249,9 +246,6 @@ button.swatch {
 .button-droplet-30pc,
 .button-droplet-70pc,
 .button-droplet-90pc {
-  margin-left: 6px;
-  height: 50px;
-  width: 50px;
   display: block;
   border-radius: 50%;
 
@@ -296,27 +290,106 @@ button.swatch {
   background-color: $green;
 }
 
-.day {
-  margin: 0 0 3px;
 
-  font-family: $stylised-font;
-  font-size: 16px;
-  font-weight: bolder;
+// -- swatch card sizing only, so it can be scaled.
+// smaller swatch cards
+.formTab {
+  --swatchCardScale: 1;
+}
+.resultsTab {
+  --swatchCardScale: 0.6;
+}
+
+@media (min-width: 800px) {
+  .formTab {
+    --swatchCardScale: 1.2;
+  }
+  .resultsTab {
+    --swatchCardScale: 1;
+  }
+}
+@media (min-width: 1100px) {
+  .formTab {
+    --swatchCardScale: 1.5;
+  }
+  .resultsTab {
+    --swatchCardScale: 1.5;
+  }
+}
+
+.extraSpacingDiv {
+  height: calc(var(--swatchCardScale) * 110px);
+}
+
+.formTab .scrollable-area {
+  padding: calc(var(--swatchCardScale) * 20px) 0;
+}
+
+.resultsTab .scrollable-area {
+  padding: 0 0 calc(var(--swatchCardScale) * 75px);
+}
+
+.swatch-card {
+  height: calc(var(--swatchCardScale) * 165px);
+  margin: 0 calc(var(--swatchCardScale) * 16px);
+  padding: calc(var(--swatchCardScale) * 20px) calc(var(--swatchCardScale) * 16px);
+}
+
+.resultsTab .swatch-card {
+  top: calc(var(--cardorder) * calc(var(--swatchCardScale) * 110px));
+  left: calc(var(--cardorder) * calc(var(--swatchCardScale) * 12px));
+}
+
+.signature-area {
+  width: calc(var(--swatchCardScale) * 135px);
+}
+
+.signature {
+  font-size: calc(var(--swatchCardScale) * 20px);
+  margin:  calc(var(--swatchCardScale) * 20px) 0;
+}
+
+.swatch-area {
+  width: calc(var(--swatchCardScale) * 130px);
+  padding: 0 calc(var(--swatchCardScale) * 25px);
+}
+
+.swatch {
+  width: calc(var(--swatchCardScale) * 80px);
+  height: calc(var(--swatchCardScale) * 80px);
+  margin: 0 auto  calc(var(--swatchCardScale) * 10px);
+
+  border: calc(var(--swatchCardScale) * 3px) solid $black;
+}
+
+.day {
+  margin: 0 0 calc(var(--swatchCardScale) * 3px);
+  font-size: calc(var(--swatchCardScale) * 16px);
 }
 
 .date {
-  font-family: $stylised-font;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: calc(var(--swatchCardScale) * 14px);
 }
+
+
+// swatch buttons sizing
+.button-droplet-0pc,
+.button-droplet-30pc,
+.button-droplet-70pc,
+.button-droplet-90pc {
+  margin-left: calc(var(--swatchCardScale) * 6.5px);
+  height: calc(var(--swatchCardScale) * 50px);
+  width: calc(var(--swatchCardScale) * 50px);
+}
+
+// end of swatch cards sizing
+
 
 //----------------------------
 
 #paint-pots-frame {
   width: 100%
 }
-
-
 
 #help-text {
   fill: $dark-grey;
@@ -348,7 +421,7 @@ button.swatch {
   }
 }
 
-#pathways path{
+#pathways path {
   stroke: $dark-grey;
   stroke-width: 3;
   visibility: hidden;
@@ -460,7 +533,6 @@ button.swatch {
   margin: 20px -16px;
   padding: 0 0 10px 0;
 }
-
 .tab-right {
   justify-content: flex-end;
 }
@@ -477,7 +549,6 @@ button.swatch {
   text-decoration: none;
   box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.5);
 }
-
 
 .tab-link:hover {
   filter: brightness(85%);
