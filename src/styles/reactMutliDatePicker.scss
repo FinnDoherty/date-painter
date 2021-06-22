@@ -1,0 +1,31 @@
+
+@import "react-multi-date-picker/styles/colors/teal.css";
+
+:root {
+  --rmdp-primary-teal: #009688;
+  --rmdp-secondary-teal: #00796b;
+  --rmdp-shadow-teal: #26a69a;
+  --rmdp-today-teal: #1de9b6;
+  --rmdp-hover-teal: #4db6ac;
+  --rmdp-deselect-teal: #00695c;
+}
+
+:root {
+    --rmdp-primary-teal: #{$teal};
+    --rmdp-secondary-teal: #{lighten($teal, 5)};
+    --rmdp-shadow-teal: #{lighten($teal, 10)};
+    --rmdp-today-teal: #{darken($yellow, 30)};
+    --rmdp-hover-teal: #{darken($teal, 5)};
+    --rmdp-deselect-teal: #{darken($teal, 10)};
+}
+
+.rmdp-header-values {
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--rmdp-primary-teal);
+}
+
+.rmdp-arrow {
+    margin-left: 2px;
+    margin-top: 6px;
+}
