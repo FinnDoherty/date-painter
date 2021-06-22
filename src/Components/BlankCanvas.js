@@ -112,7 +112,7 @@ export default class BlankCanvas extends Component {
               }}/>
 
           <label className="heading" htmlFor="calendar">Choose possible dates</label>
-          <Calendar value={this.state.dates} onChange={this.setDates} />
+          <Calendar value={this.state.dates} onChange={this.setDates} sort weekStartDayIndex={1}/>
 
           { this.state.invalidForm && <label className="heading validation-message">Please select at least 2 dates</label> }
 
