@@ -1,13 +1,31 @@
 // adapted from react-multi-date-picker/styles/colors/teal.css
 
+// added my own colours
 :root {
-  --rmdp-primary-teal: #009688;
-  --rmdp-secondary-teal: #00796b;
-  --rmdp-shadow-teal: #26a69a;
-  --rmdp-today-teal: #1de9b6;
-  --rmdp-hover-teal: #4db6ac;
-  --rmdp-deselect-teal: #00695c;
+  --rmdp-primary-teal: #{$teal};
+  --rmdp-secondary-teal: #{lighten($teal, 5)};
+  --rmdp-shadow-teal: #{lighten($teal, 10)};
+  --rmdp-today-contrast: #9d4a35;//#{darken($yellow, 5)};
+  --rmdp-hover-teal: #{darken($teal, 15)};
+  --rmdp-deselect-teal: #{darken($teal, 10)};
 }
+
+// I modified the date circle colours to remove hover effect issue on mobile devices.
+// invovled a lot of undoing css and redoing. marked below.
+
+// modified for hover effect ---
+.rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+  background-color: revert;
+  color: revert;
+}
+.rmdp-arrow-container:hover {
+  background-color: revert;
+  box-shadow: revert;
+}
+.rmdp-arrow-container:hover .rmdp-arrow {
+  border: revert;
+}
+// ---
 
 .teal .rmdp-wrapper {
   border: 1px solid var(--rmdp-secondary-teal);
@@ -32,22 +50,41 @@
   box-shadow: 0 0 3px var(--rmdp-shadow-teal);
 }
 
-.teal .rmdp-arrow {
+// modified for hover effect
+.teal .rmdp-arrow,
+.teal .rmdp-arrow-container:hover .rmdp-arrow {
   border: solid var(--rmdp-primary-teal);
   border-width: 0 2px 2px 0;
 }
 
-.teal .rmdp-arrow-container:hover {
-  background-color: var(--rmdp-primary-teal);
-  box-shadow: 0 0 3px var(--rmdp-secondary-teal);
+// modified for hover effect
+@media (hover: hover) {
+  .teal .rmdp-arrow-container:hover {
+    background-color: var(--rmdp-primary-teal);
+    box-shadow: 0 0 3px var(--rmdp-secondary-teal);
+  }
+  .teal .rmdp-arrow-container:hover .rmdp-arrow {
+    border-color: white;
+  }
 }
 
 .teal .rmdp-panel-body::-webkit-scrollbar-thumb {
   background: var(--rmdp-primary-teal);
 }
 
-.teal .rmdp-day.rmdp-today span {
-  background-color: var(--rmdp-today-teal);
+// modified for hover effect
+.teal .rmdp-day.rmdp-today span,
+.rmdp-day.rmdp-today:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+  background-color: var(--rmdp-today-contrast);
+  color: white;
+}
+
+// modified for hover effect
+.rmdp-day.rmdp-today.rmdp-selected:not(.rmdp-disabled):not(.rmdp-day-hidden) span,
+.rmdp-day.rmdp-today.rmdp-selected:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+  background-color: var(--rmdp-primary-teal);
+  color: white;
+  border: 2px solid var(--rmdp-today-contrast);
 }
 
 .teal .rmdp-rtl .rmdp-panel {
@@ -55,13 +92,18 @@
   border-right: 1px solid var(--rmdp-secondary-teal);
 }
 
+// modified for hover effect
 .teal .rmdp-day.rmdp-selected span:not(.highlight) {
   background-color: var(--rmdp-primary-teal);
   box-shadow: 0 0 3px var(--rmdp-shadow-teal);
+  color: white;
 }
 
-.teal .rmdp-day:not(.rmdp-day-hidden) span:hover {
-  background-color: var(--rmdp-hover-teal) !important;
+// modified for hover effect
+@media (hover: hover) {
+  .teal .rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+    background-color: var(--rmdp-hover-teal) !important;
+  }
 }
 
 .teal .b-deselect {
@@ -77,36 +119,28 @@
   background-color: var(--rmdp-primary-teal);
 }
 
-.teal .rmdp-button:not(.rmdp-action-button):hover {
-  background-color: var(--rmdp-deselect-teal);
+
+// modified for hover effect
+@media (hover: hover) {
+  .teal .rmdp-button:not(.rmdp-action-button):hover {
+    background-color: var(--rmdp-deselect-teal);
+  }
 }
 
-
-:root {
-  --rmdp-primary-teal: #009688;
-  --rmdp-secondary-teal: #00796b;
-  --rmdp-shadow-teal: #26a69a;
-  --rmdp-today-teal: #1de9b6;
-  --rmdp-hover-teal: #4db6ac;
-  --rmdp-deselect-teal: #00695c;
-}
-
-:root {
-    --rmdp-primary-teal: #{$teal};
-    --rmdp-secondary-teal: #{lighten($teal, 5)};
-    --rmdp-shadow-teal: #{lighten($teal, 10)};
-    --rmdp-today-teal: #{darken($yellow, 30)};
-    --rmdp-hover-teal: #{darken($teal, 5)};
-    --rmdp-deselect-teal: #{darken($teal, 10)};
-}
+// additions
 
 .rmdp-header-values {
-    font-weight: bold;
-    font-size: 16px;
-    color: var(--rmdp-primary-teal);
+  font-weight: bold;
+  font-size: 16px;
+  color: var(--rmdp-primary-teal);
+}
+@media (hover: hover) {
+  .rmdp-header-values span:hover {
+    color: var(--rmdp-hover-teal);
+  }
 }
 
 .rmdp-arrow {
-    margin-left: 2px;
-    margin-top: 6px;
+  margin-left: 2px;
+  margin-top: 6px;
 }
