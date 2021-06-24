@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import ExistingCanvas from "./Components/ExistingCanvas";
-import BlankCanvasWrapper from "./Components/BlankCanvasWrapper";
+import BlankCanvas from "./Components/BlankCanvas";
 import NotFoundPage from "./Components/NotFoundPage";
 
 class App extends Component {
@@ -30,7 +30,7 @@ class App extends Component {
         <div className="container">
 
         <Switch>
-          <Route exact path="/" component={BlankCanvasWrapper} />
+          <Route exact path="/" component={BlankCanvas} />
           <Route exact path="/404" component={NotFoundPage} />
           <Route exact path="/:code" component={ExistingCanvas} />
 

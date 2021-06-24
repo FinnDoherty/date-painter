@@ -1,6 +1,7 @@
 import mnemonicWords from "mnemonic-words";
 import React, { Component } from "react";
 import { Calendar } from "react-multi-date-picker";
+import { FirebaseContext } from "../Firebase";
 
 export default class BlankCanvas extends Component {
   constructor(props) {
@@ -60,7 +61,7 @@ export default class BlankCanvas extends Component {
     });
 
     if (validForm) {
-      const firebase = this.props.firebase;
+      const firebase = this.context;
       const db = firebase.firestore;
       let canvasesRef = db.collection("canvases");
 
@@ -128,3 +129,4 @@ export default class BlankCanvas extends Component {
     );
   }
 }
+BlankCanvas.contextType = FirebaseContext;
