@@ -80,7 +80,7 @@ export default class BlankCanvas extends Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <h2 className="title">Create a date poll</h2>
 
         <form onSubmit={this.handleSubmit}>
@@ -125,7 +125,7 @@ export default class BlankCanvas extends Component {
 
           <button type="submit" className="button">SUBMIT</button>
         </form>
-      </div>
+      </React.Fragment>
     );
   }
 }

@@ -10,15 +10,19 @@ body {
   font-family: $main-font;
 }
 
+$header-height: 100px;
+$footer-height: 50px;
+$header-and-footer-height: calc(#{$header-height} + #{$footer-height});
+
 .container {
   padding: 0 16px;
   margin: 0 0 100px 0;
+  min-height: calc(100vh - #{$header-and-footer-height});
 }
-
 
 .header {
   background-color: $teal;
-  height: 100px;
+  height: $header-height;
   width: 100%;
   clip-path: polygon(0% 0%,100% 0%,100% 100%,75% 85%,0% 100%);
 }
@@ -29,7 +33,7 @@ body {
 
 .footer {
   background-color: $teal;
-  height: 50px;
+  height: $footer-height;
   width: 100%;
 }
 
@@ -116,4 +120,10 @@ h2.title {
 .tab-link:active {
   box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.75);
   transform: translateY(2px);
+}
+
+.not-found-page-link {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
 }

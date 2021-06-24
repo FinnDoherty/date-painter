@@ -12,7 +12,7 @@ export class Canvas extends Component {
       paintbrush: "empty",
       occasionName: "",
       name: "",
-      buttonValues: [],
+      swatchColours: [],
       dateCount: 0,
       datesLabelsDay: [],
       datesLabelsDate: [],
@@ -76,7 +76,7 @@ export class Canvas extends Component {
             datesLabelsMonth: canvas.dates.map(
               (d) => labelsMonth[d.toDate().getMonth()]
             ),
-            buttonValues: canvas.dates.map((d) => "empty"),
+            swatchColours: canvas.dates.map((d) => "empty"),
           });
         } else {
           console.log("No such document!");
@@ -121,12 +121,12 @@ export class Canvas extends Component {
     });
   }
 
-  handleSwatchClick(event, buttonIndex) {
-    let buttonValuesCopy = [...this.state.buttonValues];
-    buttonValuesCopy[buttonIndex] = this.state.paintbrush;
+  handleSwatchClick(event, swatchIndex) {
+    let swatchColoursCopy = [...this.state.swatchColours];
+    swatchColoursCopy[swatchIndex] = this.state.paintbrush;
 
     this.setState({
-      buttonValues: buttonValuesCopy,
+      swatchColours: swatchColoursCopy,
     });
 
     if (this.state.paintbrush == "empty") {
@@ -143,7 +143,7 @@ export class Canvas extends Component {
     event.preventDefault();
 
     let nameProvided = this.state.name != "";
-    let allAnswered = this.state.buttonValues.every((answer) => answer !== "empty");
+    let allAnswered = this.state.swatchColours.every((answer) => answer !== "empty");
     let validForm = (nameProvided && allAnswered);
 
     this.setState({
@@ -158,7 +158,7 @@ export class Canvas extends Component {
 
       swatchesRef.add({
         name: this.state.name,
-        answers: this.state.buttonValues,
+        answers: this.state.swatchColours,
         canvasRef: this.props.match.params.code,
         createdBy: "",
         createdAt: firebase.serverTimestamp(),
@@ -169,7 +169,7 @@ export class Canvas extends Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <h2 className="title">{this.state.occasionName}</h2>
 
         <form className={`formTab ${this.props.isResultsTab ? '' : 'showForm'}`} onSubmit={this.handleSubmit}>
@@ -212,9 +212,9 @@ export class Canvas extends Component {
                       key={i}
                       name={"button-" + i}
                       onClick={(e) => this.handleSwatchClick(e, i)}
-                      className={`swatch swatch-colour-${this.state.buttonValues[i]}`}
+                      className={`swatch swatch-colour-${this.state.swatchColours[i]}`}
                     >
-                      <span className={`button-droplet-${this.state.buttonValues[i]}`}></span>
+                      <span className={`button-droplet-${this.state.swatchColours[i]}`}></span>
                     </button>
 
                     <p className="day">{this.state.datesLabelsDay[i]}</p>
@@ -238,7 +238,7 @@ export class Canvas extends Component {
             datesLabelsDate={this.state.datesLabelsDate}
             datesLabelsMonth={this.state.datesLabelsMonth}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

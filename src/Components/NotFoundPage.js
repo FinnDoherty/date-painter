@@ -8,10 +8,10 @@ export default class NotFoundPage extends Component {
 
   render() {
     return (
-      <div>
-        404, Matching code not found <br/>
-        <Link to="/">(Return to create new poll)</Link>
-      </div>
+      <React.Fragment>
+        <h2 className="title">Sorry, the page you are looking for can't be found</h2>
+        <Link className="not-found-page-link" to="/">Create a new date poll</Link>
+      </React.Fragment>
     );
   }
 }
