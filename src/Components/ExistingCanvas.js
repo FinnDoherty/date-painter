@@ -12,7 +12,16 @@ export default class ExistingCanvas extends Component {
     };
   }
 
+  setTitle() {
+    var codeAbbreviated = this.props.match.params.code.match(/\b(\w)/g).join('');
+    var resultsTab = this.props.location.search === "?results";
+
+    document.title = `Date Painter - ${codeAbbreviated}${resultsTab ? ' results' : ''}`;
+  }
+
   componentDidMount() {
+    this.setTitle();
+
     this.setState({
       isResultsTab: this.props.location.search === "?results",
     });
@@ -23,12 +32,7 @@ export default class ExistingCanvas extends Component {
       prevProps.match.params.code !== this.props.match.params.code ||
       prevProps.location.search !== this.props.location.search
     ) {
-
-      // set the page title
-      var codeAbbreviated = this.props.match.params.code.match(/^.|(?<=-)./g).join('');
-      var resultsTab = this.props.location.search === "?results";
-
-      document.title = `Date Painter - ${codeAbbreviated}${resultsTab ? ' results' : ''}`;
+      this.setTitle();
 
       // add code and resultsTab boolean to state
       this.setState({
