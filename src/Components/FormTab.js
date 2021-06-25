@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PaintPots from "./PaintPots";
 import FirebaseContext from "../Firebase/context";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default class FormTab extends Component {
   constructor(props) {
@@ -79,15 +80,15 @@ export default class FormTab extends Component {
     if (validForm) {
       const firebase = this.context;
       const db = firebase.firestore;
-      let swatchesRef = db.collection("swatches");
 
-      swatchesRef.add({
+      addDoc(collection(db, "swatches"), {
         name: this.state.name,
         answers: this.state.swatchColours,
         canvasRef: this.props.match.params.code,
         createdBy: "",
-        createdAt: firebase.serverTimestamp(),
-      });
+        createdAt: serverTimestamp(),
+      })
+
       this.props.history.push(this.props.location.pathname + "?results");
     }
   }

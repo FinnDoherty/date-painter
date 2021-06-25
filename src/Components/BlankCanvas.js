@@ -2,6 +2,7 @@ import mnemonicWords from "mnemonic-words";
 import React, { Component } from "react";
 import { Calendar } from "react-multi-date-picker";
 import { FirebaseContext } from "../Firebase";
+import { collection, query, orderBy, onSnapshot, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default class BlankCanvas extends Component {
   constructor(props) {
@@ -33,19 +34,17 @@ export default class BlankCanvas extends Component {
   }
 
   fetchPreviouslyUsedCodes() {
-    const db = this.context.firestore;
-
-    let canvasesRef = db
-      .collection("canvases")
-      .orderBy("code", "desc");
-
     let codes = [];
-    this.fireStoreUnsubscribe = canvasesRef.onSnapshot((querySnapshot) => {
-      codes = querySnapshot.docs.map((doc) => doc.data().code);
 
-      this.setState({
-        previousCodes: codes,
-      });
+    const db = this.context.firestore;
+    const q = query(collection(db, "canvases"), orderBy("code", "desc"));
+
+    this.fireStoreUnsubscribe = onSnapshot(q, (querySnapshot) => {
+        codes = querySnapshot.docs.map((doc) => doc.data().code);
+
+        this.setState({
+          previousCodes: codes,
+        });
     });
   }
 
@@ -87,19 +86,16 @@ export default class BlankCanvas extends Component {
     });
 
     if (validForm && !codeAlreadyUsed) {
-      const firebase = this.context;
-      const db = firebase.firestore;
-      let canvasesRef = db.collection("canvases");
+      const db = this.context.firestore;
 
-      canvasesRef.add({
-        dates: this.state.dates,
-        code: this.state.code,
-        occasionName: this.state.occasionName,
+      addDoc(collection(db, "canvases"), {
+          dates: this.state.dates,
+          code: this.state.code,
+          occasionName: this.state.occasionName,
 
-        createdBy: "",
-        createdAt: firebase.serverTimestamp(),
-      });
-
+          createdBy: "",
+          createdAt: serverTimestamp(),
+      })
       this.props.history.push("/" + this.state.code);
     }
   }

@@ -1,5 +1,5 @@
-import app from "firebase/app";
-import "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -12,10 +12,8 @@ const config = {
 
 class Firebase {
   constructor() {
-    app.initializeApp(config);
-
-    this.firestore = app.firestore();
-    this.serverTimestamp = app.firestore().app.firebase_.firestore.FieldValue.serverTimestamp;
+    const firebaseApp = initializeApp(config);
+    this.firestore = getFirestore(firebaseApp);
   }
 }
 

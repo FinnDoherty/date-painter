@@ -3,6 +3,7 @@ import FirebaseContext from "../Firebase/context";
 import DateUtils from "../Utils/DateUtils";
 import FormTab from "./FormTab";
 import ResultsTab from "./ResultsTab";
+import { collection, query, where, orderBy, onSnapshot, getDocs } from "firebase/firestore";
 
 export default class ExistingCanvas extends Component {
   constructor(props) {
@@ -70,12 +71,12 @@ export default class ExistingCanvas extends Component {
     const db = this.context.firestore;
 
     // formTab - get the event details, like range of dates, to give answers to.
-    let canvasesRef = db
-      .collection("canvases")
-      .where("code", "==", this.props.match.params.code);
+    const q = query(
+      collection(db, "canvases"),
+      where("code", "==", this.props.match.params.code)
+    );
 
-    canvasesRef
-      .get()
+    getDocs(q)
       .then((doc) => {
         if (doc.docs.length === 1) {
           let canvas = doc.docs[0].data();
@@ -96,16 +97,17 @@ export default class ExistingCanvas extends Component {
   }
 
   fetchCompletedSwatchCards() {
+    let swatchCards = [];
     const db = this.context.firestore;
 
     // resultsTab - get the already submitted answers
-    let swatchesRef = db
-      .collection("swatches")
-      .where("canvasRef", "==", this.props.match.params.code)
-      .orderBy("createdAt", "asc");
+    const q = query(
+      collection(db, "swatches"),
+      where("canvasRef", "==", this.props.match.params.code),
+      orderBy("createdAt", "asc")
+    );
 
-    let swatchCards = [];
-    this.fireStoreUnsubscribe = swatchesRef.onSnapshot((querySnapshot) => {
+    this.fireStoreUnsubscribe = onSnapshot(q, (querySnapshot) => {
       swatchCards = querySnapshot.docs;
 
       this.setState({
