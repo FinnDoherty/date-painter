@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import ResultsTab from "./ResultsTab";
+import DateUtils from "../Utils/DateUtils";
 
 import PaintPots from "./PaintPots";
 
@@ -9,21 +10,18 @@ export class Canvas extends Component {
     super(props);
 
     this.state = {
-      paintbrush: "empty",
       occasionName: "",
+      datesLabels: [],
       name: "",
+      paintbrush: "empty",
       swatchColours: [],
-      dateCount: 0,
-      datesLabelsDay: [],
-      datesLabelsDate: [],
-      datesLabelsMonth: [],
       submittedSwatchCards: [],
       invalidFormName: false,
       invalidFormSwatches: false,
     };
 
-    this.changePaint = this.changePaint.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.changePaint = this.changePaint.bind(this);
     this.handleSwatchClick = this.handleSwatchClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -31,7 +29,7 @@ export class Canvas extends Component {
   componentDidMount() {
     const db = this.props.firebase.firestore;
 
-    // formTab get the event details, like range of dates, to give answers to.
+    // formTab - get the event details, like range of dates, to give answers to.
     let canvasesRef = db
       .collection("canvases")
       .where("code", "==", this.props.match.params.code);
@@ -41,42 +39,10 @@ export class Canvas extends Component {
         if (doc.docs.length === 1) {
           let canvas = doc.docs[0].data();
 
-          let labelsDay = [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-          ];
-
-          const labelsMonth = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-          ];
-
           this.setState({
             occasionName: canvas.occasionName,
-            dateCount: canvas.dates.length,
-            datesLabelsDay: canvas.dates.map(
-              (d) => labelsDay[d.toDate().getDay()]
-            ),
-            datesLabelsDate: canvas.dates.map((d) => d.toDate().getDate()),
-            datesLabelsMonth: canvas.dates.map(
-              (d) => labelsMonth[d.toDate().getMonth()]
-            ),
-            swatchColours: canvas.dates.map((d) => "empty"),
+            datesLabels: canvas.dates.map(DateUtils.dateObjectToReadableLabels),
+            swatchColours: canvas.dates.map(() => "empty"), // set all to default empty
           });
         } else {
           console.log("No such document!");
@@ -129,6 +95,7 @@ export class Canvas extends Component {
       swatchColours: swatchColoursCopy,
     });
 
+    // help prompt if the user hasn't selected a paint colour
     if (this.state.paintbrush == "empty") {
       var el = document.getElementById("paint-pots");
       el.classList.add("reminder-flash");
@@ -204,7 +171,7 @@ export class Canvas extends Component {
                 <p className="signature">{this.state.name}</p>
               </div>
 
-              {[...Array(this.state.dateCount).keys()].map((i) => {
+              {this.state.datesLabels.map((date, i) => {
                 return (
                   <div key={i} className="swatch-area">
                     <button
@@ -217,8 +184,8 @@ export class Canvas extends Component {
                       <span className={`button-droplet-${this.state.swatchColours[i]}`}></span>
                     </button>
 
-                    <p className="day">{this.state.datesLabelsDay[i]}</p>
-                    <p className="date">{this.state.datesLabelsDate[i]} {this.state.datesLabelsMonth[i]}</p>
+                    <p className="day">{date.day}</p>
+                    <p className="date">{date.date} {date.month}</p>
                   </div>
                 );
               })}
@@ -234,9 +201,7 @@ export class Canvas extends Component {
         <ResultsTab
             submittedSwatchCards={this.state.submittedSwatchCards}
             isResultsTab={this.props.isResultsTab}
-            datesLabelsDay={this.state.datesLabelsDay}
-            datesLabelsDate={this.state.datesLabelsDate}
-            datesLabelsMonth={this.state.datesLabelsMonth}
+            datesLabels={this.state.datesLabels}
         />
       </React.Fragment>
     );

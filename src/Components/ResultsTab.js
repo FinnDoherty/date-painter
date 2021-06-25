@@ -29,8 +29,8 @@ export class SubmittedSwatchCards extends Component {
                     >
                     </div>
 
-                    <p className="day">{this.props.datesLabelsDay[i]}</p>
-                    <p className="date">{this.props.datesLabelsDate[i]} {this.props.datesLabelsMonth[i]}</p>
+                    <p className="day">{this.props.datesLabels[i].day}</p>
+                    <p className="date">{this.props.datesLabels[i].date} {this.props.datesLabels[i].month}</p>
                   </div>
                 );
               })}
