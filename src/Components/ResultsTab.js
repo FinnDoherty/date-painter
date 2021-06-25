@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-export class SubmittedSwatchCards extends Component {
+export default class ResultsTab extends Component {
   render() {
     return (
       <div className={`resultsTab ${this.props.isResultsTab ? "showResults" : ""}`} >
+
         <div className="tab tab-left">
           <Link className="tab-link" to={location => `${location.pathname}`}>add a card</Link>
         </div>
@@ -44,5 +45,3 @@ export class SubmittedSwatchCards extends Component {
     );
   }
 }
-
-export default SubmittedSwatchCards;

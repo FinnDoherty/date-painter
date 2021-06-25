@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class PaintPots extends Component {
+export default class PaintPots extends Component {
   constructor(props) {
     super(props);
 
@@ -60,5 +60,3 @@ class PaintPots extends Component {
     );
   }
 }
-
-export default PaintPots;
