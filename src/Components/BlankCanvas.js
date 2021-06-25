@@ -12,6 +12,8 @@ export default class BlankCanvas extends Component {
       code: "",
       occasionName: "Weekly Games",
       invalidForm: false,
+      previousCodes: [],
+      codeAlreadyUsed: false,
     };
     this.setDates = this.setDates.bind(this);
     this.generateCode = this.generateCode.bind(this);
@@ -20,9 +22,31 @@ export default class BlankCanvas extends Component {
   }
 
   componentDidMount() {
+    this.fetchPreviouslyUsedCodes();
     this.generateCode();
 
     document.title = 'Date Painter';
+  }
+
+  componentWillUnmount() {
+    this.fireStoreUnsubscribe();
+  }
+
+  fetchPreviouslyUsedCodes() {
+    const db = this.context.firestore;
+
+    let canvasesRef = db
+      .collection("canvases")
+      .orderBy("code", "desc");
+
+    let codes = [];
+    this.fireStoreUnsubscribe = canvasesRef.onSnapshot((querySnapshot) => {
+      codes = querySnapshot.docs.map((doc) => doc.data().code);
+
+      this.setState({
+        previousCodes: codes,
+      });
+    });
   }
 
   generateCode() {
@@ -55,12 +79,14 @@ export default class BlankCanvas extends Component {
     event.preventDefault();
 
     let validForm =  this.state.dates.length > 1;
+    let codeAlreadyUsed = this.state.previousCodes.includes(this.state.code);
 
     this.setState({
       invalidForm: !validForm,
+      codeAlreadyUsed: codeAlreadyUsed,
     });
 
-    if (validForm) {
+    if (validForm && !codeAlreadyUsed) {
       const firebase = this.context;
       const db = firebase.firestore;
       let canvasesRef = db.collection("canvases");
@@ -122,6 +148,7 @@ export default class BlankCanvas extends Component {
           />
 
           { this.state.invalidForm && <label className="heading validation-message">Please select at least 2 dates</label> }
+          { this.state.codeAlreadyUsed && <label className="heading validation-message">The random code has been used. Please generate a new code</label> }
 
           <button type="submit" className="button">SUBMIT</button>
         </form>
