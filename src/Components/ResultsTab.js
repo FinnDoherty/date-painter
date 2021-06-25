@@ -6,7 +6,7 @@ export default class ResultsTab extends Component {
     return (
       <div className={`resultsTab ${this.props.isResultsTab ? "showResults" : ""}`} >
 
-        <div className="tab tab-left">
+        <div className="tab-wrapper tab-left">
           <Link className="tab-link" to={location => `${location.pathname}`}>add a card</Link>
         </div>
         {/* todo make this refresh the page to empty */}

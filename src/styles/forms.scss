@@ -67,6 +67,8 @@ button {
   width: 100%;
   background-color: $teal;
   color: $white;
+  // required for older safari
+  -webkit-text-fill-color: $white;
 
   @media (min-width: 800px) {
     width: 200px;

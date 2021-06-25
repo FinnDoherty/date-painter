@@ -96,7 +96,7 @@ export default class FormTab extends Component {
     return (
       <form className={`formTab ${this.props.isResultsTab ? '' : 'showForm'}`} onSubmit={this.handleSubmit}>
 
-        <div className="tab tab-right">
+        <div className="tab-wrapper tab-right">
             <Link className="tab-link" to={location => `${location.pathname}?results`}>go to results</Link>
         </div>
 
