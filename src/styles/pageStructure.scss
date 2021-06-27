@@ -1,6 +1,5 @@
 
 *, *:before, *:after {
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -25,7 +24,6 @@ $header-and-footer-height: calc(#{$header-height} + #{$footer-height});
   background-color: $teal;
   height: $header-height;
   width: 100%;
-  -webkit-clip-path: polygon(0% 0%,100% 0%,100% 100%,75% 85%,0% 100%);
   clip-path: polygon(0% 0%,100% 0%,100% 100%,75% 85%,0% 100%);
 }
 

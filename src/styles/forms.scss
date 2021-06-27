@@ -27,7 +27,6 @@ input[type=text]:focus {
 button {
   /* remove default behavior */
   appearance:none;
-  -webkit-appearance:none;
   all: revert;
 }
 
