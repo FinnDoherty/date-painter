@@ -1,11 +1,18 @@
 const path = require("path");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const htmlPlugin = new HtmlWebpackPlugin({
   template: "./src/index.html",
   filename: "./index.html",
   favicon: "./src/favicon.ico",
+});
+
+const copyPlugin = new CopyPlugin({
+  patterns: [
+    { from: "src/robots.txt", to: path.resolve(__dirname, "public") },
+  ],
 });
 
 module.exports = {
@@ -56,5 +63,5 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx"],
   },
-  plugins: [htmlPlugin, new Dotenv()],
+  plugins: [htmlPlugin, new Dotenv(), copyPlugin],
 };

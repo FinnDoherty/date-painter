@@ -1,0 +1,8 @@
+# for google crawlers. homepage only
+
+User-agent: *
+User-agent: Mediapartners-Google
+User-agent: AdsBot-Google
+User-agent: AdsBot-Google-Mobile
+Allow: /$
+Disallow: /
