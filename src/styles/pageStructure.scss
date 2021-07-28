@@ -20,6 +20,15 @@ $header-and-footer-height: calc(#{$header-height} + #{$footer-height});
   min-height: calc(100vh - #{$header-and-footer-height});
 }
 
+.inner-container {
+  @media (min-width: 800px) {
+    padding: 0 10%;
+  }
+  @media (min-width: 1000px) {
+    padding: 0 20%;
+  }
+}
+
 .header {
   background-color: $teal;
   height: $header-height;
@@ -41,6 +50,11 @@ h2.title {
   font-size: 26px;
   margin: 35px 0 5px;
   text-align: center;
+
+  @media (min-width: 800px) {
+    font-size: 38px;
+    margin-bottom: 30px;
+  }
 }
 
 
@@ -112,6 +126,10 @@ h2.title {
   color: $white;
   text-decoration: none;
   box-shadow: 3px 3px 6px transparentize($color: $black, $amount: 0.5);
+
+  @media (min-width: 1280px) {
+    font-size: 24px;
+  }
 }
 
 .tab-link:hover {

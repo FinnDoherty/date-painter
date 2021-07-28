@@ -140,19 +140,16 @@ button.swatch {
 }
 
 @media (min-width: 800px) {
+  .resultsTab {
+    --swatchCardScale: 0.8;
+  }
+}
+@media (min-width: 1280px) {
   .formTab {
-    --swatchCardScale: 1.2;
+    --swatchCardScale: 1.4;
   }
   .resultsTab {
     --swatchCardScale: 1;
-  }
-}
-@media (min-width: 1100px) {
-  .formTab {
-    --swatchCardScale: 1.5;
-  }
-  .resultsTab {
-    --swatchCardScale: 1.5;
   }
 }
 

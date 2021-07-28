@@ -1,6 +1,10 @@
 
 #paint-pots-frame {
-  width: 100%
+  width: 100%;
+
+  @media (min-width: 1280px) {
+    transform: scale(1.2);
+  }
 }
 
 #help-text {

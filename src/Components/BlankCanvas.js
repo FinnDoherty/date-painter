@@ -103,51 +103,53 @@ export default class BlankCanvas extends Component {
   render() {
     return (
       <React.Fragment>
-        <h2 className="title">Create a date poll</h2>
+        <div className="inner-container">
+          <h2 className="title">Create a date poll</h2>
 
-        <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit}>
 
-          <label className="heading" htmlFor="code">Generate a unique code for the event link</label>
-          <input
-              className="read-only-field"
-              type="text" id="code" name="code"
-              value={this.state.code}
-              readOnly
-          />
-          <button
-              type="button"
-              className="button"
-              onClick={this.generateCode}>
-                GENERATE
-          </button>
+            <label className="heading" htmlFor="code">Generate a unique code for the event link</label>
+            <input
+                className="read-only-field"
+                type="text" id="code" name="code"
+                value={this.state.code}
+                readOnly
+            />
+            <button
+                type="button"
+                className="button"
+                onClick={this.generateCode}>
+                  GENERATE
+            </button>
 
-          <label className="heading" htmlFor="occasionName">Give the event a title</label>
-          <input
-              type="text" id="occasionName" name="occasionName"
-              value={this.state.occasionName}
-              onChange={this.changeOccasionName}
-              onKeyDown={(event) => {
-                if (event.keyCode == 13) {
-                  event.preventDefault();
-                  event.target.blur();
-                  return false;
-                }
-              }}/>
+            <label className="heading" htmlFor="occasionName">Give the event a title</label>
+            <input
+                type="text" id="occasionName" name="occasionName"
+                value={this.state.occasionName}
+                onChange={this.changeOccasionName}
+                onKeyDown={(event) => {
+                  if (event.keyCode == 13) {
+                    event.preventDefault();
+                    event.target.blur();
+                    return false;
+                  }
+                }}/>
 
-          <label className="heading" htmlFor="calendar">Choose possible dates</label>
-          <Calendar
-              value={this.state.dates}
-              onChange={this.setDates}
-              sort
-              weekStartDayIndex={1}
-              className="teal"
-          />
+            <label className="heading" htmlFor="calendar">Choose possible dates</label>
+            <Calendar
+                value={this.state.dates}
+                onChange={this.setDates}
+                sort
+                weekStartDayIndex={1}
+                className="teal"
+            />
 
-          { this.state.invalidForm && <label className="heading validation-message">Please select at least 2 dates</label> }
-          { this.state.codeAlreadyUsed && <label className="heading validation-message">The random code has been used. Please generate a new code</label> }
+            { this.state.invalidForm && <label className="heading validation-message">Please select at least 2 dates</label> }
+            { this.state.codeAlreadyUsed && <label className="heading validation-message">The random code has been used. Please generate a new code</label> }
 
-          <button type="submit" className="button">SUBMIT</button>
-        </form>
+            <button type="submit" className="button">SUBMIT</button>
+          </form>
+        </div>
       </React.Fragment>
     );
   }

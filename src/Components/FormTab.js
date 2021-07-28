@@ -101,25 +101,28 @@ export default class FormTab extends Component {
             <Link className="tab-link" to={location => `${location.pathname}?results`}>go to results</Link>
         </div>
 
-        <label className="heading" htmlFor="name">Enter your name</label>
-        <input
-            type="text" id="name" name="name"
-            value={this.state.name}
-            onChange={this.handleNameChange}
-            onKeyDown={(event) => {
-              if (event.keyCode == 13) {
-                event.preventDefault();
-                event.target.blur();
-                return false;
-              }
-            }}/>
 
-        <label id="pick-a-colour-label" className="heading" htmlFor="paints">Pick a colour</label>
+        <div className="inner-container">
+          <label className="heading" htmlFor="name">Enter your name</label>
+          <input
+              type="text" id="name" name="name"
+              value={this.state.name}
+              onChange={this.handleNameChange}
+              onKeyDown={(event) => {
+                if (event.keyCode == 13) {
+                  event.preventDefault();
+                  event.target.blur();
+                  return false;
+                }
+              }}/>
 
-        <PaintPots parentChangePaintCallback = {this.changePaint}/>
+          <label id="pick-a-colour-label" className="heading" htmlFor="paints">Pick a colour</label>
 
-        <label className="heading" htmlFor="card">and paint your card</label>
+          <PaintPots parentChangePaintCallback = {this.changePaint}/>
 
+          <label className="heading" htmlFor="card">and paint your card</label>
+
+        </div>
         <div className="scrollable-area">
           <div className="swatch-card">
             <div className="signature-area">
@@ -147,10 +150,12 @@ export default class FormTab extends Component {
           </div>
         </div>
 
-        { this.state.invalidFormName && <label className="heading validation-message">Please provide your name</label> }
-        { this.state.invalidFormSwatches && <label className="heading validation-message">Please fill out the full card</label> }
+        <div className="inner-container">
+          { this.state.invalidFormName && <label className="heading validation-message">Please provide your name</label> }
+          { this.state.invalidFormSwatches && <label className="heading validation-message">Please fill out the full card</label> }
 
-        <button type="submit" className="button">SUBMIT</button>
+          <button type="submit" className="button">SUBMIT</button>
+        </div>
       </form>
     );
   }

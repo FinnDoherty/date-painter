@@ -10,6 +10,7 @@ label.heading {
 }
 
 input[type=text] {
+  font-size: 16px;
   padding: 10px;
   margin: 10px 1px;
   border: 1px solid $black;
@@ -17,6 +18,16 @@ input[type=text] {
   border-radius:10px;
   width:100%;
   background-color: $white;
+
+  @media (min-width: 800px) {
+    width: 40%;
+
+    // center an inline element without affecting parent
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 input[type=text]:focus {
@@ -70,7 +81,7 @@ button {
   -webkit-text-fill-color: $white;
 
   @media (min-width: 800px) {
-    width: 200px;
+    width: 25%;
     float: right;
     clear: both;
   }
