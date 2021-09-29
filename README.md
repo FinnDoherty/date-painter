@@ -1,6 +1,6 @@
 # Date Painter
 
-:calendar: **Use it here:** [date-painter.web.app](https://date-painter.web.app)
+:calendar: **Use it here:** [datepainter.com](https://datepainter.com)
 
 Date Painter makes choosing a day that suits everyone simple. It's quick to set up a free date poll and then share the unique link with your friends or co-workers.
 
