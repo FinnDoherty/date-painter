@@ -50,6 +50,7 @@ h2.title {
   font-size: 26px;
   margin: 35px 0 5px;
   text-align: center;
+  position: relative;
 
   @media (min-width: 800px) {
     font-size: 38px;
@@ -57,6 +58,30 @@ h2.title {
   }
 }
 
+.copy-icon {
+  position: absolute;
+  margin-left: 10px;
+  font-size: 12px;
+  color: $dark-grey;
+}
+
+.copied-toast{
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 4px;
+  text-align: center;
+  background-color: $black;
+  color: $white;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 1.5s ease-out;
+
+  &.visible{
+    opacity: 0.7;
+    transition: opacity 0.1s;
+  }
+}
 
 .logo {
   margin: 20px 15px;
