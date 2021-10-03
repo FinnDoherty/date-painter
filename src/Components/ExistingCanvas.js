@@ -5,6 +5,7 @@ import FormTab from "./FormTab";
 import ResultsTab from "./ResultsTab";
 import { collection, query, where, orderBy, onSnapshot, getDocs } from "firebase/firestore";
 import { IoCopy } from 'react-icons/io5';
+import { AiFillNotification } from "react-icons/ai";
 
 export default class ExistingCanvas extends Component {
   constructor(props) {
@@ -121,6 +122,30 @@ export default class ExistingCanvas extends Component {
     return (navigator.clipboard && navigator.clipboard.writeText);
   }
 
+  canUseNotifications() {
+    return ("Notification" in window);
+  }
+
+  handleSubscribe() {
+    if (!this.canUseNotifications) {
+      console.log("This browser does not support desktop notification");
+    }
+
+    else if (Notification.permission === "granted") {
+      new Notification("Subscribed to new responses");
+
+      this.context.subscribeToTopic(this.props.match.params.code);
+    } else {
+      Notification.requestPermission().then(function(permission) {
+        if (permission === "granted") {
+          new Notification("Subscribed to new responses");
+
+          this.context.subscribeToTopic(this.props.match.params.code);
+        }
+      });
+    }
+  }
+
   handleCopyClick() {
     if (this.canUseClipboard()) {
       let path = (new URL(document.URL)).pathname;
@@ -143,10 +168,16 @@ export default class ExistingCanvas extends Component {
         <h2 className="title">
 
         {this.state.occasionName}
-        { this.canUseClipboard() &&
+        { this.canUseClipboard() && !this.state.isResultsTab &&
           <IoCopy className="copy-icon" onClick={() => this.handleCopyClick()}/>
         }
         </h2>
+
+        <div className="subscribeButton-wrapper">
+          { this.canUseNotifications && this.state.isResultsTab &&
+              <button className="subscribeButton" onClick={() => this.handleSubscribe()}>Get Notified<AiFillNotification className="subscribe-icon" /></button>
+          }
+        </div>
 
         <div id="copied-toast" className="copied-toast">Link copied to clipboard</div>
 
