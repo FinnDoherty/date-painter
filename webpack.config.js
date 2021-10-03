@@ -12,14 +12,18 @@ const htmlPlugin = new HtmlWebpackPlugin({
 const copyPlugin = new CopyPlugin({
   patterns: [
     { from: "src/robots.txt", to: path.resolve(__dirname, "public") },
+    { from: "src/manifest.json", to: path.resolve(__dirname, "public") },
   ],
 });
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    'bundle.js': "./src/index.js",
+    'firebase-messaging-sw.js': "./src/firebase-messaging-sw.js",
+  },
   output: {
     path: path.resolve(__dirname, "public"),
-    filename: "bundle.js",
+    filename: "[name]",
   },
   module: {
     rules: [
@@ -52,6 +56,7 @@ module.exports = {
       },
     ],
   },
+  // devtool: "source-map",
   devServer: {
     port: 3000,
     compress: true,
