@@ -1,6 +1,6 @@
 import { addDoc, collection, getFirestore, serverTimestamp } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import { getToken, getMessaging, onMessage } from "firebase/messaging";
+import { getToken, getMessaging } from "firebase/messaging";
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -16,32 +16,25 @@ class Firebase {
     const firebaseApp = initializeApp(config);
     this.firestore = getFirestore(firebaseApp);
 
-    this.messaging = getMessaging(firebaseApp);
+    this.messaging = getMessaging(firebaseApp, );
+    this.registration;
 
-    onMessage(this.messaging, (message) => {
-      console.log('message received');
-      console.log(message);
-      alert(message);
-    })
+    navigator.serviceWorker
+      .register('/extra-sw.js')
+      .then((registration) => {
+        this.registration = registration;
+      });
   }
 
   subscribeToTopic(topic) {
-    console.log('subscribeToTopic');
-
-    getToken(this.messaging, {vapidKey: process.env.REACT_APP_VAPID_KEY}).then((currentToken) => {
+    getToken(this.messaging, {vapidKey: process.env.REACT_APP_VAPID_KEY, serviceWorkerRegistration: this.registration}).then((currentToken) => {
       if (currentToken) {
-        console.log('%c Current token' + currentToken, 'font-size: 10px');
-
         addDoc(collection(this.firestore, "subscriptions"), {
           code: topic,
           fcmToken: currentToken,
           createdBy: "",
           createdAt: serverTimestamp(),
         });
-        console.log('got token');
-      } else {
-        // Show permission request UI
-        console.log('No registration token available. Request permission to generate one.');
       }
     }).catch((err) => {
       console.log('An error occurred while retrieving token. ', err);

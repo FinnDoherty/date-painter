@@ -13,7 +13,7 @@ exports.notifyUser = functions.firestore.document('swatches/{swatchId}')
 
     const payload = {
       notification: {
-        title: 'Update',
+        title: code,
         body: `${name} submitted a response`,
         icon: 'https://datepainter.com/favicon.ico'
       }

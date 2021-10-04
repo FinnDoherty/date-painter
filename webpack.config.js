@@ -19,7 +19,7 @@ const copyPlugin = new CopyPlugin({
 module.exports = {
   entry: {
     'bundle.js': "./src/index.js",
-    'firebase-messaging-sw.js': "./src/firebase-messaging-sw.js",
+    'extra-sw.js': "./src/extra-sw.js",
   },
   output: {
     path: path.resolve(__dirname, "public"),
