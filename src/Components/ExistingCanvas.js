@@ -63,7 +63,8 @@ export default class ExistingCanvas extends Component {
   }
 
   setTitle() {
-    var codeAbbreviated = this.props.match.params.code.match(/\b(\w)/g).join('');
+    var initials = this.props.match.params.code.match(/\b(\w)/g);
+    var codeAbbreviated = initials ? initials.join('') : 'event';
     var resultsTab = this.props.location.search === "?results";
 
     document.title = `Date Painter - ${codeAbbreviated}${resultsTab ? ' results' : ''}`;
